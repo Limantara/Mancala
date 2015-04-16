@@ -6,13 +6,9 @@ import javax.swing.event.*;
 public class BoardFrame extends JFrame implements ChangeListener
 {
 	private Board board;
-	private MancalaPanel mancalaA;
-	private MancalaPanel mancalaB;
-	private PitPanel pitController; 
 
 	private final static int DEFAULT_WIDTH = 1000;
 	private final static int DEFAULT_HEIGHT = 200;
-	
 
 	public BoardFrame(Board board)
 	{
@@ -30,9 +26,11 @@ public class BoardFrame extends JFrame implements ChangeListener
 		  	BoardFrame.DEFAULT_HEIGHT
 	    );
 
-		pitController = new PitPanel();
-		mancalaA = new MancalaPanel();
-		mancalaB = new MancalaPanel();
+		PitPanel pitController = new PitPanel(board);
+		Mancala mancalaA = new Mancala(board, Board.MANCALA_A);
+		Mancala mancalaB = new Mancala(board, Board.MANCALA_B);
+		board.attach(mancalaA);
+		board.attach(mancalaB);
 		
 		add(pitController, BorderLayout.CENTER);
 		add(mancalaA, BorderLayout.WEST);

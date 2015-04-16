@@ -3,12 +3,10 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 
-public class MancalaPanel extends JPanel
+public class MancalaPanel extends JPanel implements ChangeListener
 {
 	private int mancalaAStones;
 	private int mancalaBStones;
-	private final static int MANCALA_A = 1;
-	private final static int MANCALA_B = 2;
 
 	private final static int DEFAULT_MANCALA_WIDTH = 60;
 	private final static int DEFAULT_MANCALA_HEIGHT = 100;
@@ -37,17 +35,22 @@ public class MancalaPanel extends JPanel
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
-		draw(g2, MancalaPanel.MANCALA_A);
-		draw(g2, MancalaPanel.MANCALA_B);
+		draw(g2, Board.MANCALA_A);
+		draw(g2, Board.MANCALA_B);
+	}
+
+	public void stateChanged(ChangeEvent e)
+	{
+
 	}
 
 	public void addStone(int whichMancala)
 	{
-		if(whichMancala == MancalaPanel.MANCALA_A)
+		if(whichMancala == Board.MANCALA_A)
 		{
 			mancalaAStones++;
 		}
-		else if(whichMancala == MancalaPanel.MANCALA_B)
+		else if(whichMancala == Board.MANCALA_B)
 		{
 			mancalaBStones++;
 		}

@@ -6,34 +6,30 @@ import javax.swing.event.*;
 import java.util.*;
 
 //Controller: Back side -> see PitPanel (Controller: Front side)
-public class Pit extends JComponent
+public class Pit extends JComponent implements ChangeListener
 {
-	private int stones;
+	public static final int DEFAULT_STONES_NUM = 3;
+
 	private int id;
-	private ChangeListener model;
+	private Board board;
+
 	private static final int DEFAULT_WIDTH = 50;
 	private static final int DEFAULT_HEIGHT = 50;
 	
-	private static final int DEFAULT_STONES_NUM = 3;
 	private final static int DEFAULT_STONE_X = 0;
 	private final static int DEFAULT_STONE_Y = 0;
 	private final static int DEFAULT_STONE_SIZE = 10;
 
-	public Pit(int id)
+	public Pit(int id, Board board)
 	{	
-		stones = DEFAULT_STONES_NUM;
+		this.board = board;
 		this.id = id;
-		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
-	public void attach(ChangeListener model)
+	public void stateChanged(ChangeEvent e)
 	{
-		this.model = model;
-	}
-
-	public void update()
-	{
-		model.stateChanged(new ChangeEvent(this));
+		board = (Board) e.getSource();
+		repaint();
 	}
 
 	public void paintComponent(Graphics g)
@@ -60,7 +56,7 @@ public class Pit extends JComponent
 		// Create the parts of this car and draw them here.
 		int Xcircle = Pit.DEFAULT_STONE_X;
 		int Ycircle = Pit.DEFAULT_STONE_Y;
-		for(int i=0; i<stones; i++)
+		for(int i = 0; i < board.getNumOfStones(id); i++)
 		{
 			//create Pit inside the Rectangle, MAX Pit will be 36.
 			Ellipse2D.Double circle = new Ellipse2D.Double ( 
@@ -82,54 +78,45 @@ public class Pit extends JComponent
 		}
 
 		g2.drawString(String.valueOf(id), 10, 30);
-		contains(0, 0);
 	}
 
 	public boolean contains(int x, int y)
 	{
-		// int x0;
-		// int y0;
+		int row = getRow();
+		int col = getCol();
+		int outerWidth = getWidth();
+		int outerHeight = getHeight();
 
-		// if(id > PitPanel.LAST_LOWER_PIT)
-		// {
-		// 	x0 = PitPanel.LAST_LOWER_PIT - (id % PitPanel.DEFAULT_COLS_NUMBER) + 
-		// 		 getWidth()/2 - Pit.DEFAULT_WIDTH/2.
-		// }
-		// else
-		// {
+		int x0 = (col*outerWidth) + (outerWidth/2) - (Pit.DEFAULT_WIDTH/2);
 
-		// }
-		//  = id*getWidth() + getWidth()/2 - Pit.DEFAULT_WIDTH/2;
+		int y0 = ((PitPanel.DEFAULT_ROWS_NUMBER - row - 1)*outerHeight) + 
+				 (outerHeight/2) - (Pit.DEFAULT_HEIGHT/2);
 
-		// System.out.println(id + ": " + x0_component);
-		// System.out.println("pit width: " + getWidth());
-
-		return true;
-		// int y0_component = getHeight()/2 - Pit.DEFAULT_HEIGHT/2;
-
-		// return x >= x0_component &&
-		// 	   x <= x0_component + Pit.DEFAULT_WIDTH &&
-		// 	   y >= y0_component &&
-		// 	   y <= y0_component + Pit.DEFAULT_HEIGHT;
+		return x >= x0 &&
+			   x <= x0 + Pit.DEFAULT_WIDTH &&
+			   y >= y0 &&
+			   y <= y0 + Pit.DEFAULT_HEIGHT;
 	}
 
-	public void setStones(int s) 
-	{ 
-		stones = s;
+	private int getRow()
+	{
+		return id / PitPanel.DEFAULT_COLS_NUMBER;
 	}
-	
-	public int getStones() 
-	{ 
-		return stones;
-	}
-	
-	public void clearPit() 
-	{ 
-		stones = 0;
-	}
-	
-	public void addStone() 
-	{ 
-		stones++; 
+
+	private int getCol()
+	{
+		if(id >= PitPanel.FIRST_UPPER_PIT && id <= PitPanel.LAST_UPPER_PIT)
+		{
+			return PitPanel.LAST_LOWER_PIT - (id % PitPanel.DEFAULT_COLS_NUMBER);
+		}
+		else if(id <= PitPanel.LAST_LOWER_PIT)
+		{
+			return id;
+		}
+		else
+		{
+			// throw error later
+			return -1;
+		}
 	}
 }

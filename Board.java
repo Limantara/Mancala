@@ -2,21 +2,50 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.List;
+import java.util.*;
 
 //serves as model
-public class Board implements ChangeListener
+public class Board
 {
+	public final static int PLAYER_A = 1;
+	public final static int PLAYER_B = 2;
+	public final static int MANCALA_A = 1;
+	public final static int MANCALA_B = 2;
+	public final static int MANCALA_A_HOLE = 12;
+	public final static int MANCALA_B_HOLE = 13;
+
 	private Player playerA;
 	private Player playerB;
-	private Mancala aMancala;
-	private Mancala bMancala;
-	private Pit[] pits; // 0-5 is A's pits, 6-11 is B's pits
+	private int[] stones; // 0-5 is A's pits, 6-11 is B's pits, 12 is A's mancala, 13 is B's mancala
 	private List<ChangeListener> observers;
+
+	private final static int TOTAL_HOLES = 14; // pits + mancalas
 	
 	public Board()
 	{
+		observers = new ArrayList<>();
+		stones = new int[TOTAL_HOLES];
+
+		for(int pit = 0; pit < stones.length; pit++)
+		{
+			if(pit == Board.MANCALA_A_HOLE || pit == Board.MANCALA_B_HOLE)
+			{
+				stones[pit] = Mancala.STARTING_STONES_NUMBER;
+				System.out.println("pit: " + pit);
+			}
+			else
+			{
+				stones[pit] = Pit.DEFAULT_STONES_NUM;
+			}
+		}
+
 		playerA = new Player(true);
 		playerB = new Player();
+	}
+
+	public int getNumOfStones(int pit)
+	{
+		return stones[pit];
 	}
 
 	public void attach(ChangeListener observer)
@@ -24,108 +53,97 @@ public class Board implements ChangeListener
 		observers.add(observer);
 	}
 
-	public void stateChanged(ChangeEvent controller)
+	public void update()
 	{
-		
-	}
-
-	public void update(Pit clickedPit)
-	{
-		//look for the pit which is clicked
-		int whosePit = findPit(clickedPit);
-
-		if(whosePit == -1)
-		{
-			return;
-		}
-			
-		if(whosePit >= 0 && whosePit < 6 && playerA.isMyTurn())
-		{
-			oneMove(clickedPit);
-			playerA.setMyTurn(false);
-			playerB.setMyTurn(true);
-		}
-
-		if(whosePit >= 6 && whosePit < 12 && playerB.isMyTurn())
-		{
-			oneMove(clickedPit);
-			playerB.setMyTurn(false);
-			playerA.setMyTurn(true);
-		}
-
 		for(ChangeListener observer : observers)
 		{
 			observer.stateChanged(new ChangeEvent(this));
 		}
 	}
 
+	public void select(int pit)
+	{	
+		//look for the pit which is clicked
+		// int pit = whichPit;
+		// System.out.println("whosePit: " + whosePit);
+		
+		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT && playerA.isMyTurn())
+		{
+			oneMove(pit);
+			playerA.setMyTurn(false);
+			playerB.setMyTurn(true);
+		}
+
+		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT && playerB.isMyTurn())
+		{
+			oneMove(pit);
+			playerB.setMyTurn(false);
+			playerA.setMyTurn(true);
+		}
+
+		update();
+	}
+
 	
 	// //pick up all stones in one pit, and move counter-clock wise
-	public void oneMove(Pit selectedPit)
+	public void oneMove(int pit)
 	{
-		int i = findPit(selectedPit);
-		String whosePit = "";
-		if(i >= 0 && i < 6)
+		int whosePit = -1;
+
+		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT)
 		{
-			whosePit = "a";
+			whosePit = Board.PLAYER_A;
+		}
+	 	else if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT)
+		{
+			whosePit = Board.PLAYER_B;
 		}
 			 
-		if(i >= 6 && i < 12)
-		{
-			whosePit = "b";
-		}
-			 
-		int leftStone = pits[i].getStones(); //Stones left in the players hand
-		pits[i].clearPit();
-		i++;
+		int remainingStones = stones[pit]; //Stones left in the players hand
+		stones[pit] = 0;
 
 		//If it is A's turn, and he click on pit[5]
-		if(i == 6 && leftStone > 0 && whosePit.equals("a"))
+		if(pit == PitPanel.LAST_LOWER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_A)
 		{
-			aMancala.addStone();
-			leftStone--;
+			stones[Board.MANCALA_B_HOLE]++;
+			remainingStones--;
+			pit = PitPanel.FIRST_UPPER_PIT;
 		}
 		//If it is B's turn, and he click on pit[11]
-		if(i == 12 && leftStone > 0 && whosePit.equals("b"))
+		else if(pit == PitPanel.LAST_UPPER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_B)
 		{
-			bMancala.addStone();
-			leftStone--;
-			i = 0;
+			stones[Board.MANCALA_A_HOLE]++;
+			remainingStones--;
+			pit = PitPanel.FIRST_LOWER_PIT;
+		}
+		else 
+		{
+			pit++;
 		}
 		
-		while(leftStone > 0)
+		while(remainingStones > 0)
 		{
-			pits[i].addStone();
-			leftStone--;
-			i++;
-			if(i == 6 && leftStone > 0 && whosePit.equals("a")){
-				aMancala.addStone();
-				leftStone--;
+			stones[pit]++;
+			remainingStones--;
+
+			if(pit == PitPanel.LAST_LOWER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_B)
+			{
+				stones[Board.MANCALA_B_HOLE]++;
+				remainingStones--;
+				pit = PitPanel.FIRST_UPPER_PIT;
 			}
-			
-			if(i == 12 && leftStone > 0 && whosePit.equals("b")){
-				bMancala.addStone();
-				leftStone--;
+			else if(pit == PitPanel.LAST_UPPER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_A)
+			{
+				stones[Board.MANCALA_A_HOLE]++;
+				remainingStones--;
+				pit = PitPanel.FIRST_LOWER_PIT;
 			}
-			if(i == 12)
-				i = 0;
+			else
+			{
+				pit++;
+			}
 		}
 
 		return;
 	}
-	
-	//helper methods
-	public int findPit(Pit selectedPit)
-	{
-		for(int i = 0; i < 12; i++)
-		{
-			if(pits[i].equals(selectedPit))
-			{
-				return i;
-			}		
-		}
-		return -1;
-	}
-	
-	
 }
