@@ -49,16 +49,6 @@ public class PitPanel extends JPanel
 		});
 	}
 
-	public void stateChanged(ChangeEvent e)
-	{
-
-	}
-
-	public void update()
-	{
-
-	}
-
 	private void initializePits()
 	{
 		myPits = new Pit[PitPanel.DEFAULT_PITS_NUMBER];
@@ -66,14 +56,14 @@ public class PitPanel extends JPanel
 		for(int id = PitPanel.LAST_UPPER_PIT; id >= PitPanel.FIRST_UPPER_PIT; id--)
 		{
 			myPits[id] = new Pit(id, board);
-			board.attach(myPits[id]);
+			//board.attach(myPits[id]);
 			add(myPits[id]);
 		}
 
 		for(int id = PitPanel.FIRST_LOWER_PIT; id <= PitPanel.LAST_LOWER_PIT; id++)
 		{
 			myPits[id] = new Pit(id, board);
-			board.attach(myPits[id]);
+			//board.attach(myPits[id]);
 			add(myPits[id]);
 		}
 	}

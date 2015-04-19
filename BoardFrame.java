@@ -3,7 +3,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 
-public class BoardFrame extends JFrame implements ChangeListener
+public class BoardFrame extends JFrame
 {
 	private Board board;
 
@@ -29,19 +29,44 @@ public class BoardFrame extends JFrame implements ChangeListener
 		PitPanel pitController = new PitPanel(board);
 		Mancala mancalaA = new Mancala(board, Board.MANCALA_A);
 		Mancala mancalaB = new Mancala(board, Board.MANCALA_B);
-		board.attach(mancalaA);
-		board.attach(mancalaB);
+		
+		//set ChangeListener for MancalaA
+		ChangeListener listenerA = new
+				ChangeListener()
+				{
+						public void stateChanged(ChangeEvent e)
+						{
+							//System.out.println(mancalaA.getmancala());
+							mancalaA.setmancala(board.getNumOfStones(board.MANCALA_A_HOLE) );
+							
+							repaint();
+						}
+				};
+		
+		//set ChangeListener for MancalaB
+		ChangeListener listenerB = new
+				ChangeListener()
+				{
+						public void stateChanged(ChangeEvent e)
+						{
+							//System.out.println(mancalaA.getmancala());
+							mancalaB.setmancala(board.getNumOfStones(board.MANCALA_B_HOLE) );
+							
+							repaint();
+						}
+				};
+		//add ChangeListener to the board class
+		board.attach(listenerA);
+		board.attach(listenerB);
+		
 		
 		add(pitController, BorderLayout.CENTER);
-		add(mancalaA, BorderLayout.WEST);
-		add(mancalaB, BorderLayout.EAST); 
-
+		add(mancalaA, BorderLayout.EAST);
+		add(mancalaB, BorderLayout.WEST); 
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
-	public void stateChanged(ChangeEvent controller)
-	{
-		
-	}
 }
