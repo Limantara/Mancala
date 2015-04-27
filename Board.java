@@ -64,12 +64,14 @@ public class Board
 
 	/**
 	 * Check does the player finish the game or not
+	 * then print out who is the winner
 	 * @param players the current player to check
-	 * @return true if all the pits are clear for the current player
+	 * @return a string for who is the winner
 	 */
-	public boolean Endgame(Player players)
+	public String Endgame(Player players)
 	{
 		checkWinner = true;
+		String output = "";
 		if(players == playerA)
 		{
 			for(int i = PitPanel.FIRST_LOWER_PIT; i <= PitPanel.LAST_LOWER_PIT; i++)
@@ -98,9 +100,17 @@ public class Board
 		
 		if(checkWinner)
 		{
-			System.out.println("Gmae Over");
+			if(stones[MANCALA_A_HOLE] > stones[MANCALA_B_HOLE]) //check who has more stones in mancala
+			{
+				output = "Game Over and Player A is the WInner!";
+				
+			}
+			else
+			{
+				output = "Game Over and Player B is the WInner!";
+			}
 		}
-		return checkWinner;
+		return output;
 	}
 	
 	public void select(int pit)
@@ -113,14 +123,14 @@ public class Board
 		{
 			oneMove(pit);	
 			//check end game or not
-			Endgame(playerA);
+			System.out.println(Endgame(playerA));
 		}
 
 		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT && playerB.isMyTurn())
 		{
 			oneMove(pit);
 			//check end game or not
-			Endgame(playerB);
+			System.out.println(Endgame(playerB));
 		}
 		
 		update();
@@ -156,7 +166,9 @@ public class Board
 		int remainingStones = stones[pit]; //Stones left in the players hand		
 		stones[pit] = 0;
 		
-		
+		boolean MancalaAdded = false;
+		//System.out.println("remainingStones: " + remainingStones);
+		//stem.out.println("pit: " + pit);
 		while(remainingStones > 0)
 		{
 			
@@ -164,10 +176,11 @@ public class Board
 			if(pit == PitPanel.LAST_LOWER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_A)
 			{
 				stones[Board.MANCALA_A_HOLE]++;
-				
+				MancalaAdded = true;
 				//set playerA for next turn when last pit in mancala 
 				if(pit == PitPanel.LAST_LOWER_PIT && remainingStones == 1 && whosePit == Board.PLAYER_A)
 				{
+					//System.out.println("pit A: " + pit);
 					playerA.setMyTurn(true);
 					playerB.setMyTurn(false);
 				}
@@ -179,10 +192,11 @@ public class Board
 			else if(pit == PitPanel.LAST_UPPER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_B)
 			{
 				stones[Board.MANCALA_B_HOLE]++;
-				
+				MancalaAdded = true;
 				//set playerB for next turn when last pit in mancala 
 				if(pit == PitPanel.LAST_UPPER_PIT && remainingStones == 1 && whosePit == Board.PLAYER_B)
 				{
+					//System.out.println("pit B: " + pit);
 					playerB.setMyTurn(true);
 					playerA.setMyTurn(false);
 				}
@@ -192,14 +206,40 @@ public class Board
 			}		
 			else
 			{
-				stones[pit+1]++;
+				if(MancalaAdded) //if Mancala added, the pit is already added so do nothing
+				{
+					//do nothing
+					MancalaAdded = false; //set MancalaAdded back to default
+					//System.out.println("do nothing");
+				}
+				else
+				{
+					pit++; 
+					
+				}
+				
+				//System.out.println("pit+1: " + pit);
+				stones[pit]++;
 				remainingStones--;
+				
 			}
-				pit++;
 			
+			//If the last stone you drop is in an empty pit on your side, 
+			//you get to take that stone and all of your opponents stones that are in the opposite pit.
+			if(stones[pit] == 1 && remainingStones == 0 && pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.FIRST_UPPER_PIT &&  whosePit == Board.PLAYER_A)
+			{
+				stones[pit] += stones[11-pit];
+				stones[11-pit] = 0;
+			}
+			else if(stones[pit] == 1 && remainingStones == 0 && pit >= PitPanel.LAST_LOWER_PIT && pit <= PitPanel.LAST_UPPER_PIT &&  whosePit == Board.PLAYER_B)
+			{
+				stones[pit] += stones[11-pit];
+				stones[11-pit] = 0;
+			}
+			
+		
+		
 		}
-		
-		
 		return;
 	}
 }
