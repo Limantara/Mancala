@@ -47,6 +47,8 @@ public class PitPanel extends JPanel
 				board.select(selectedPit);
 			}
 		});
+
+		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	public void stateChanged(ChangeEvent e)
