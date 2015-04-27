@@ -10,8 +10,8 @@ public class Mancala extends JComponent implements ChangeListener
 	public final static int STARTING_STONES_NUMBER = 0;
 
 	private Board board;
-	private int mancala;
-
+	private int stone;
+	private int whichMancala;
 	private final static int DEFAULT_WIDTH = 60;
 	private final static int DEFAULT_HEIGHT = 100;
 	private final static int DEFAULT_OUTER_WIDTH = 120;
@@ -24,14 +24,14 @@ public class Mancala extends JComponent implements ChangeListener
 	public Mancala(Board board, int whichMancala) 
 	{
 		this.board = board;
-
+		
 		if(whichMancala == Board.MANCALA_A)
 		{
-			mancala = Board.MANCALA_A;
+			this.whichMancala = Board.MANCALA_A;
 		}
 		else if(whichMancala == Board.MANCALA_B)
 		{
-			mancala = Board.MANCALA_B;
+			this.whichMancala = Board.MANCALA_B;
 		}
 		else
 		{
@@ -41,6 +41,16 @@ public class Mancala extends JComponent implements ChangeListener
 		setPreferredSize(new Dimension(Mancala.DEFAULT_OUTER_WIDTH, Mancala.DEFAULT_OUTER_HEIGHT));
 	}
 
+	public void setmancala(int stones)
+	{
+		this.stone = stones;
+	}
+	
+	public String getmancala()
+	{
+		return " " + stone;
+	}
+	
 	public void paintComponent(Graphics g)
 	{	
 		Graphics2D g2 = (Graphics2D) g;
@@ -61,7 +71,7 @@ public class Mancala extends JComponent implements ChangeListener
 		int Ycircle = Mancala.DEFAULT_STONE_Y;
 		int numStones;
 
-		if(mancala == Board.MANCALA_A)
+		if(whichMancala == Board.MANCALA_A)
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_A_HOLE); 
 		}
@@ -86,7 +96,7 @@ public class Mancala extends JComponent implements ChangeListener
 
 			if(Xcircle == Mancala.DEFAULT_WIDTH)
 			{
-				Xcircle = x_centered;
+				Xcircle = DEFAULT_STONE_X;
 				Ycircle += Mancala.DEFAULT_STONE_SIZE;
 			}
 		}

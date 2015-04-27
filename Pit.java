@@ -13,8 +13,8 @@ public class Pit extends JComponent implements ChangeListener
 	private int id;
 	private Board board;
 
-	private static final int DEFAULT_WIDTH = 50;
-	private static final int DEFAULT_HEIGHT = 50;
+	private static final int DEFAULT_WIDTH = 60;
+	private static final int DEFAULT_HEIGHT = 60;
 	
 	private final static int DEFAULT_STONE_X = 0;
 	private final static int DEFAULT_STONE_Y = 0;
@@ -82,7 +82,7 @@ public class Pit extends JComponent implements ChangeListener
 
 			if(Xcircle == Pit.DEFAULT_WIDTH)
 			{
-				Xcircle = x_centered;
+				Xcircle = DEFAULT_STONE_X;
 				Ycircle += Pit.DEFAULT_STONE_SIZE;
 			}
 		}
