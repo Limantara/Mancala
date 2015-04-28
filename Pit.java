@@ -39,17 +39,7 @@ public class Pit extends JComponent implements ChangeListener
 		int x_centered = getWidth()/2 - Pit.DEFAULT_WIDTH/2;
 		int y_centered = getHeight()/2 - Pit.DEFAULT_HEIGHT/2;
 
-
-		// Rectangle body = new Rectangle(
-		// 	x_centered,
-		// 	y_centered,
-		// 	Pit.DEFAULT_WIDTH, 
-		// 	Pit.DEFAULT_HEIGHT
-		// );
-		// 
-		setPitLayout(new CircleLayout());
-
-		Circle body = new Circle (
+		Rectangle body = new Rectangle(
 			x_centered,
 			y_centered,
 			Pit.DEFAULT_WIDTH, 
