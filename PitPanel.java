@@ -1,3 +1,11 @@
+/**
+ *	COPYRIGHT (C) 2015 Team Architects. All Rights Reserved.
+ *	Mancala
+ *	CS 151 Project Solution
+ *	@author Boya Zhou, Edwin Limantara, Kun Su
+ *	@version 1.01 2015/4/27
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,6 +26,7 @@ public class PitPanel extends JPanel
 
 	private Board board;
 	private Pit[] myPits;
+	private BoardLayout layout;
 
 	public PitPanel(Board board) 
 	{	
@@ -50,6 +59,15 @@ public class PitPanel extends JPanel
 
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
+	
+	public void setPanelLayout(BoardLayout layout)
+	{
+		this.layout = layout;
+		for(Pit p : myPits)
+		{
+			p.setPitLayout(layout);
+		}
+	}
 
 	private void initializePits()
 	{
@@ -59,6 +77,7 @@ public class PitPanel extends JPanel
 		{
 			myPits[id] = new Pit(id, board);
 			//board.attach(myPits[id]);
+			myPits[id].setPitLayout(layout);
 			add(myPits[id]);
 		}
 
@@ -66,6 +85,7 @@ public class PitPanel extends JPanel
 		{
 			myPits[id] = new Pit(id, board);
 			//board.attach(myPits[id]);
+			myPits[id].setPitLayout(layout);
 			add(myPits[id]);
 		}
 	}

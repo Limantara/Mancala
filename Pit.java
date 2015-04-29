@@ -1,3 +1,11 @@
+/**
+ *	COPYRIGHT (C) 2015 Team Architects. All Rights Reserved.
+ *	Mancala
+ *	CS 151 Project Solution
+ *	@author Boya Zhou, Edwin Limantara, Kun Su
+ *	@version 1.01 2015/4/27
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -12,6 +20,7 @@ public class Pit extends JComponent implements ChangeListener
 
 	private int id;
 	private Board board;
+	private BoardLayout layout;
 
 	private static final int DEFAULT_WIDTH = 60;
 	private static final int DEFAULT_HEIGHT = 60;
@@ -31,6 +40,12 @@ public class Pit extends JComponent implements ChangeListener
 		board = (Board) e.getSource();
 		repaint();
 	}
+	
+	public void setPitLayout(BoardLayout layout)
+	{
+		this.layout = layout;
+		repaint();
+	}
 
 	public void paintComponent(Graphics g)
 	{
@@ -39,19 +54,12 @@ public class Pit extends JComponent implements ChangeListener
 		int x_centered = getWidth()/2 - Pit.DEFAULT_WIDTH/2;
 		int y_centered = getHeight()/2 - Pit.DEFAULT_HEIGHT/2;
 
-		Rectangle body = new Rectangle(
-			x_centered,
-			y_centered,
-			Pit.DEFAULT_WIDTH, 
-			Pit.DEFAULT_HEIGHT
-		);
-
 		setPreferredSize(new Dimension(
 			Pit.DEFAULT_WIDTH, 
 			Pit.DEFAULT_HEIGHT
 		));
 
-		g2.draw(body);
+		g2.draw(layout.pitsLayout(x_centered, y_centered, Pit.DEFAULT_WIDTH, Pit.DEFAULT_HEIGHT));
 
 		// Create the parts of this car and draw them here.
 		int Xcircle = Pit.DEFAULT_STONE_X;

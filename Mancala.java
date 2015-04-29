@@ -1,3 +1,11 @@
+/**
+ *	COPYRIGHT (C) 2015 Team Architects. All Rights Reserved.
+ *	Mancala
+ *	CS 151 Project Solution
+ *	@author Boya Zhou, Edwin Limantara, Kun Su
+ *	@version 1.01 2015/4/27
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -10,6 +18,7 @@ public class Mancala extends JComponent implements ChangeListener
 	public final static int STARTING_STONES_NUMBER = 0;
 
 	private Board board;
+	private BoardLayout layout;
 	private int stone;
 	private int whichMancala;
 	private final static int DEFAULT_WIDTH = 60;
@@ -51,21 +60,20 @@ public class Mancala extends JComponent implements ChangeListener
 		return " " + stone;
 	}
 	
+	public void setMancalaLayout(BoardLayout layout)
+	{
+		
+		this.layout = layout;
+		repaint();
+	}
+	
 	public void paintComponent(Graphics g)
 	{	
 		Graphics2D g2 = (Graphics2D) g;
-
 		int x_centered = getWidth()/2 - Mancala.DEFAULT_WIDTH/2;
 		int y_centered = getHeight()/2 - Mancala.DEFAULT_HEIGHT/2;
 
-		Rectangle body = new Rectangle(
-			x_centered, 
-			y_centered, 
-			Mancala.DEFAULT_WIDTH, 
-			Mancala.DEFAULT_HEIGHT
-		);
-
-		g2.draw(body);
+		g2.draw(layout.mancalaLayout(x_centered, y_centered, Mancala.DEFAULT_WIDTH, Mancala.DEFAULT_HEIGHT));
 
 		int Xcircle = Mancala.DEFAULT_STONE_X;
 		int Ycircle = Mancala.DEFAULT_STONE_Y;
@@ -80,6 +88,7 @@ public class Mancala extends JComponent implements ChangeListener
 			numStones = board.getNumOfStones(Board.MANCALA_B_HOLE);
 		}
 
+		
 		for(int i = 0; i < numStones; i++)
 		{
 			//create Pit inside the Rectangle, MAX Pit will be 36.

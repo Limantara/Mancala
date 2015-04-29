@@ -1,10 +1,20 @@
+/**
+ *	COPYRIGHT (C) 2015 Team Architects. All Rights Reserved.
+ *	Mancala
+ *	CS 151 Project Solution
+ *	@author Boya Zhou, Edwin Limantara, Kun Su
+ *	@version 1.01 2015/4/27
+ */
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.util.List;
 import java.util.*;
 
-//serves as model
+/**
+ * Model class that stores 
+ */
 public class Board
 {
 	public final static int PLAYER_A = 1;
@@ -136,10 +146,7 @@ public class Board
 		update();
 		
 		//System.out.println("playerA" + playerA.isMyTurn());
-		//System.out.println("playerB" + playerB.isMyTurn());
-		
-		
-		 
+		//System.out.println("playerB" + playerB.isMyTurn()); 
 	}
 
 	

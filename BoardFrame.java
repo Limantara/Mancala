@@ -1,3 +1,11 @@
+/**
+ *	COPYRIGHT (C) 2015 Team Architects. All Rights Reserved.
+ *	Mancala
+ *	CS 151 Project Solution
+ *	@author Boya Zhou, Edwin Limantara, Kun Su
+ *	@version 1.01 2015/4/27
+ */
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -6,9 +14,12 @@ import javax.swing.event.*;
 public class BoardFrame extends JFrame
 {
 	private Board board;
+	private Mancala mancalaA;
+	private Mancala mancalaB;
+	private PitPanel pitController;
 
-	private final static int DEFAULT_WIDTH = 1000;
-	private final static int DEFAULT_HEIGHT = 200;
+	public final static int DEFAULT_WIDTH = 1000;
+	public final static int DEFAULT_HEIGHT = 200;
 
 	public BoardFrame(Board board)
 	{
@@ -26,9 +37,9 @@ public class BoardFrame extends JFrame
 		  	BoardFrame.DEFAULT_HEIGHT
 	    );
 
-		PitPanel pitController = new PitPanel(board);
-		Mancala mancalaA = new Mancala(board, Board.MANCALA_A);
-		Mancala mancalaB = new Mancala(board, Board.MANCALA_B);
+		pitController = new PitPanel(board);
+		mancalaA = new Mancala(board, Board.MANCALA_A);
+		mancalaB = new Mancala(board, Board.MANCALA_B);
 		
 		//set ChangeListener for MancalaA
 		ChangeListener listenerA = new
@@ -66,7 +77,14 @@ public class BoardFrame extends JFrame
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
+		setVisible(false);
 	}
-
+	
+	public void setBoardLayout(BoardLayout layout)
+	{
+		mancalaA.setMancalaLayout(layout);
+		mancalaB.setMancalaLayout(layout);
+		pitController.setPanelLayout(layout);
+		repaint();
+	}
 }
