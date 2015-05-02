@@ -27,8 +27,11 @@ public class Board
 	private Player playerA;
 	private Player playerB;
 	private int[] stones; // 0-5 is A's pits, 6-11 is B's pits, 12 is A's mancala, 13 is B's mancala
+<<<<<<< HEAD
 	private int step; //step for the game, if A moved one step, B moved one step. The step is 2. 
 	private List<int[]> snapShots;  
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 	private List<ChangeListener> observers;
 	private boolean checkWinner;
 	private final static int TOTAL_HOLES = 14; // pits + mancalas
@@ -39,10 +42,13 @@ public class Board
 		stones = new int[TOTAL_HOLES];
 		checkWinner = false;
 		
+<<<<<<< HEAD
 		//used to take snapShots of board in each step
 		step = 0;
 		snapShots = new LinkedList<int[]>();
 		
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 		for(int pit = 0; pit < stones.length; pit++)
 		{
 			if(pit == Board.MANCALA_A_HOLE || pit == Board.MANCALA_B_HOLE)
@@ -56,11 +62,14 @@ public class Board
 			}
 		}
 
+<<<<<<< HEAD
 		//take the original snapshot
 		int[] temp = Arrays.copyOf(stones, stones.length);
 		snapShots.add(step++, temp);
 		
 		
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 		playerA = new Player(true);
 		playerB = new Player();
 	}
@@ -143,7 +152,10 @@ public class Board
 		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT && playerA.isMyTurn())
 		{
 			oneMove(pit);	
+<<<<<<< HEAD
 			takeSnapShot();
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 			//check end game or not
 			System.out.println(Endgame(playerA));
 		}
@@ -151,7 +163,10 @@ public class Board
 		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT && playerB.isMyTurn())
 		{
 			oneMove(pit);
+<<<<<<< HEAD
 			takeSnapShot();
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 			//check end game or not
 			System.out.println(Endgame(playerB));
 		}
@@ -162,6 +177,7 @@ public class Board
 		//System.out.println("playerB" + playerB.isMyTurn()); 
 	}
 
+<<<<<<< HEAD
 	/**
 	 * take snap shot after each step
 	 */
@@ -191,6 +207,9 @@ public class Board
 		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
 		update();
 	}
+=======
+	
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 	// //pick up all stones in one pit, and move counter-clock wise
 	public void oneMove(int pit)
 	{
