@@ -7,6 +7,12 @@
  */
 
 import java.awt.*;
+<<<<<<< HEAD
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -17,6 +23,10 @@ public class BoardFrame extends JFrame
 	private Mancala mancalaA;
 	private Mancala mancalaB;
 	private PitPanel pitController;
+<<<<<<< HEAD
+	private JPanel redoPanel;
+=======
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 
 	public final static int DEFAULT_WIDTH = 1000;
 	public final static int DEFAULT_HEIGHT = 200;
@@ -70,7 +80,29 @@ public class BoardFrame extends JFrame
 		board.attach(listenerA);
 		board.attach(listenerB);
 		
+<<<<<<< HEAD
+		//add the Undo panel
+		redoPanel = new JPanel();
+		JButton redoBtn = new JButton("REDO");
+		redoBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				board.redo();
+			}
+		});
 		
+		JButton undoBtn = new JButton("UNDO");
+		undoBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				board.undo();
+			}
+		});
+		redoPanel.add(redoBtn);
+		redoPanel.add(undoBtn);
+		
+		add(redoPanel, BorderLayout.NORTH);
+=======
+		
+>>>>>>> bbcb66138bf613580f161e7c1ccaea10deee0065
 		add(pitController, BorderLayout.CENTER);
 		add(mancalaA, BorderLayout.EAST);
 		add(mancalaB, BorderLayout.WEST); 
