@@ -36,6 +36,9 @@ public class Pit extends JComponent implements ChangeListener
 	
 	private final static int DEFAULT_STONE_X = 0;
 	private final static int DEFAULT_STONE_Y = 0;
+	private final static int LEFT_PADDING = 10;
+	private final static int RIGHT_PADDING = 10;
+	private final static int TOP_PADDING = 10;
 	private final static int DEFAULT_STONE_SIZE = 10;
 
 	public Pit(int id, Board board)
@@ -77,8 +80,8 @@ public class Pit extends JComponent implements ChangeListener
 		{
 			//create Pit inside the Rectangle, MAX Pit will be 36.
 			Ellipse2D.Double circle = new Ellipse2D.Double ( 
-				x_centered + Xcircle, 
-				y_centered + Ycircle, 
+				x_centered + Xcircle + LEFT_PADDING, 
+				y_centered + Ycircle + TOP_PADDING, 
 				Pit.DEFAULT_STONE_SIZE, 
 				Pit.DEFAULT_STONE_SIZE
 			); 
@@ -87,7 +90,7 @@ public class Pit extends JComponent implements ChangeListener
 
 			Xcircle += Pit.DEFAULT_STONE_SIZE;
 
-			if(Xcircle == Pit.DEFAULT_WIDTH)
+			if(Xcircle >= DEFAULT_WIDTH - LEFT_PADDING - RIGHT_PADDING)
 			{
 				Xcircle = DEFAULT_STONE_X;
 				Ycircle += Pit.DEFAULT_STONE_SIZE;
