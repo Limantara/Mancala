@@ -14,8 +14,14 @@ import javax.swing.event.*;
 import javax.swing.border.*;
 
 
+/**
+ * Main frame of Mancala multiplayer board game that contains main menu.
+ */
 public class MainFrame extends JFrame
 {
+	/**
+	 * Constructs a new main frame that contains menu.
+	 */
 	public MainFrame()
 	{
 		setLayout(new BorderLayout());
@@ -37,6 +43,9 @@ public class MainFrame extends JFrame
 		setVisible(true);
 	}
 
+	/**
+	 * Main frame helper function to add Menu panel.
+	 */
 	private void addMenu()
 	{
 		JPanel mainPanel = new JPanel();
@@ -52,12 +61,16 @@ public class MainFrame extends JFrame
 		add(getStartButton(), BorderLayout.SOUTH);
 	}
 
+	/**
+	 * Menu panel helper function to get the upper portion of the panel.
+	 * @return a panel that contains the game title.
+	 */
 	private JPanel getUpperPanel()
 	{
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new BorderLayout());
 
-		JLabel teamInformation = new JLabel(
+		JLabel title = new JLabel(
 			"<html>" +
 			    "<body>" +
 			       "<br><br><br><br><h1>Mancala Multiplayer</h1><br><br><br><br>" +
@@ -65,10 +78,14 @@ public class MainFrame extends JFrame
 			"</html>",
 		SwingConstants.CENTER);
 
-		upperPanel.add(teamInformation, BorderLayout.CENTER);
+		upperPanel.add(title, BorderLayout.CENTER);
 		return upperPanel;
 	}
 
+	/**
+	 * Menu panel helper function to get the lower portion of the panel.
+	 * @return a panel that contains menu and start button.
+	 */
 	private JPanel getLowerPanel()
 	{
 		JPanel lowerPanel = new JPanel();
@@ -82,11 +99,15 @@ public class MainFrame extends JFrame
 		return lowerPanel;
 	}
 
+	/**
+	 * Menu panel helper function to get panel that contains stone number option.
+	 * @return a panel containing stone number option.
+	 */
 	private JPanel getStonesOptions()
 	{
 		JPanel stonesOptions = new JPanel();
 		stonesOptions.setLayout(new GridLayout(1, 2));
-		stonesOptions.setBorder(new EmptyBorder(10, 150, 0, 150));
+		stonesOptions.setBorder(new EmptyBorder(TOP_MARGIN, LEFT_MARGIN, NO_MARGIN, RIGHT_MARGIN));
 
 		JButton option1 = new JButton("<html><body><h4>3 stones</h4></body></html>");
 		option1.setBorder(SELECTED);
@@ -119,11 +140,15 @@ public class MainFrame extends JFrame
 		return stonesOptions;
 	}
 
+	/**
+	 * Menu panel helper function to get panel that contains layout option.
+	 * @return a panel containing layout option.
+	 */
 	private JPanel getLayoutOptions()
 	{
 		JPanel layoutOptions = new JPanel();
 		layoutOptions.setLayout(new GridLayout(1, 2));
-		layoutOptions.setBorder(new EmptyBorder(0, 150, 10, 150));
+		layoutOptions.setBorder(new EmptyBorder(NO_MARGIN, LEFT_MARGIN, BOT_MARGIN, RIGHT_MARGIN));
 
 		JButton option1 = new JButton("<html><body><h4>Circular</h4></body></html>");
 		option1.setBorder(DEFAULT);
@@ -159,6 +184,10 @@ public class MainFrame extends JFrame
 		return layoutOptions;
 	}
 
+	/**
+	 * Menu panel helper function to get panel that contains start button and copyright information.
+	 * @return a panel containing start button and copyright information.
+	 */
 	private JPanel getStartButton()
 	{
 		JPanel panel = new JPanel(new GridLayout(2, 1));
@@ -197,6 +226,11 @@ public class MainFrame extends JFrame
 	}
 
 	private BoardFrame b;
+	private static final int NO_MARGIN = 0;
+	private static final int TOP_MARGIN = 10;
+	private static final int BOT_MARGIN = 10;
+	private static final int LEFT_MARGIN = 150;
+	private static final int RIGHT_MARGIN = 150;
 	private static final int DEFAULT_WIDTH = 600;
 	private static final int DEFAULT_HEIGHT = 500;
 	private static Border DEFAULT;
