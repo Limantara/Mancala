@@ -164,7 +164,6 @@ public class MainFrame extends JFrame
 				option2.setBorder(DEFAULT);
 				b = new BoardFrame(new Board());
 				b.setBoardLayout(new CircularLayout());
-
 			}
 		});
 

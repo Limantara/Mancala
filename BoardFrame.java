@@ -7,11 +7,8 @@
  */
 
 import java.awt.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -25,15 +22,16 @@ public class BoardFrame extends JFrame
 	private Mancala mancalaA;
 	private Mancala mancalaB;
 	private PitPanel pitController;
-
+	private MainFrame mainFrame;
 	private JPanel redoPanel;
 
 	public final static int DEFAULT_WIDTH = 1000;
-	public final static int DEFAULT_HEIGHT = 200;
+	public final static int DEFAULT_HEIGHT = 300;
 
 	public BoardFrame(Board board)
 	{
 		this.board = board;
+		this.mainFrame = mainFrame;
 		setLayout(new BorderLayout());
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -97,8 +95,12 @@ public class BoardFrame extends JFrame
 				board.undo();
 			}
 		});
+
+		JButton quitButton = getQuitButton();
+
 		redoPanel.add(redoBtn);
 		redoPanel.add(undoBtn);
+		redoPanel.add(quitButton);
 		
 		//display the turn for player
 		JTextArea playerTurn = new JTextArea();
@@ -134,5 +136,23 @@ public class BoardFrame extends JFrame
 		mancalaB.setMancalaLayout(layout);
 		pitController.setPanelLayout(layout);
 		repaint();
+	}
+
+	/**
+	 * Get quit button to exit the program
+	 * @return a button containing action to quit the program.
+	 */
+	private JButton getQuitButton()
+	{
+		JButton quitButton = new JButton("Quit");
+		quitButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
+
+		return quitButton;
 	}
 }
