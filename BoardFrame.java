@@ -104,7 +104,7 @@ public class BoardFrame extends JFrame
 		
 		//display the turn for player
 		JTextArea playerTurn = new JTextArea();
-		playerTurn.setBounds(120, 10, 120, 20);
+		playerTurn.setBounds(120, 10, 150, 20);
 		add(playerTurn);
 
 		ChangeListener listenerC = new //controller

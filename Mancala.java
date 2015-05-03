@@ -89,12 +89,12 @@ public class Mancala extends JComponent implements ChangeListener
 		if(whichMancala == Board.MANCALA_A)
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_A_HOLE); 
-			g2.drawString("Mancala" + 'A', 33, 10);
+			g2.drawString("Mancala" + 'A', 33, 60);
 		}
 		else
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_B_HOLE);
-			g2.drawString("Mancala" + 'B', 33, 10);
+			g2.drawString("Mancala" + 'B', 33, 60);
 		}
 
 		
