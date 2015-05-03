@@ -3,7 +3,7 @@
  *	Mancala
  *	CS 151 Project Solution
  *	@author Boya Zhou, Edwin Limantara, Kun Su
- *	@version 1.01 2015/4/27
+ *	@version 1.02 2015/5/2
  */
 
 import java.awt.*;
@@ -30,11 +30,13 @@ public class Board
 
 	private int step; //step for the game, if A moved one step, B moved one step. The step is 2. 
 	private List<int[]> snapShots;  
-
 	private List<ChangeListener> observers;
 	private boolean checkWinner;
 	private final static int TOTAL_HOLES = 14; // pits + mancalas
 	
+	/**
+	 * Board class construct 
+	 */
 	public Board()
 	{
 		observers = new ArrayList<>();
