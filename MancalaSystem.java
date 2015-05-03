@@ -8,7 +8,7 @@
 
 import java.util.Scanner;
 
-public class MancalaTest 
+public class MancalaSystem 
 {	
 	public static void main(String[] args)
 	{
