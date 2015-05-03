@@ -16,24 +16,25 @@ import javax.swing.event.*;
 public class MainFrame extends JFrame
 {
 	private BoardFrame b;
+	private static final int DEFAULT_WIDTH = 600;
+	private static final int DEFAULT_HEIGHT = 500;
 
 	public MainFrame(BoardFrame b)
 	{
 		setLayout(new BorderLayout());
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int x_centered = (int) screenSize.getWidth()/2 - BoardFrame.DEFAULT_WIDTH/2;
-		int y_centered = (int) screenSize.getHeight()/2 - BoardFrame.DEFAULT_HEIGHT/2;
+		int x_centered = (int) screenSize.getWidth()/2 - MainFrame.DEFAULT_WIDTH/2;
+		int y_centered = (int) screenSize.getHeight()/2 - MainFrame.DEFAULT_HEIGHT/2;
 
 		setBounds(
 			x_centered, 
 		  	y_centered, 
-		  	BoardFrame.DEFAULT_WIDTH, 
-		  	BoardFrame.DEFAULT_HEIGHT
+		  	MainFrame.DEFAULT_WIDTH, 
+		  	MainFrame.DEFAULT_HEIGHT
 	    );
 		
 		JButton circleDisplay = new JButton("Circle");
-
 		circleDisplay.addActionListener(
 			new ActionListener() 
 			{

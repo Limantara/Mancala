@@ -28,7 +28,6 @@ public class BoardFrame extends JFrame
 
 	private JPanel redoPanel;
 
-
 	public final static int DEFAULT_WIDTH = 1000;
 	public final static int DEFAULT_HEIGHT = 200;
 
