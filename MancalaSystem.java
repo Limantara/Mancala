@@ -8,6 +8,9 @@
 
 import java.util.Scanner;
 
+/**
+ * Driver class of Mancala multiplayer board game.
+ */
 public class MancalaSystem 
 {	
 	public static void main(String[] args)
