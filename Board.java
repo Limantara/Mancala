@@ -32,6 +32,7 @@ public class Board
 	private List<int[]> snapShots;  
 	private List<ChangeListener> observers;
 	private boolean checkWinner;
+	private boolean FirstTime;
 	private final static int TOTAL_HOLES = 14; // pits + mancalas
 	
 	/**
@@ -42,7 +43,7 @@ public class Board
 		observers = new ArrayList<>();
 		stones = new int[TOTAL_HOLES];
 		checkWinner = false;
-		
+		FirstTime = true;
 		//used to take snapShots of board in each step
 		step = 0;
 		snapShots = new LinkedList<int[]>();
@@ -66,21 +67,63 @@ public class Board
 		int[] temp = Arrays.copyOf(stones, stones.length);
 		snapShots.add(step++, temp);
 		
-		
-		playerA = new Player(true);
+		playerA = new Player();
 		playerB = new Player();
 	}
 
+	/**
+	 * set who is the first player to play
+	 * @param player input the player
+	 */
+	public void SetPlayer(int pit)
+	{
+		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT)
+		{
+			playerA.setMyTurn(true);
+			playerB.setMyTurn(false);
+		}
+
+		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT)
+		{
+			playerB.setMyTurn(true);
+			playerA.setMyTurn(false);
+		}
+	}
+	
+	public String getplayerturn()
+	{
+		if(playerA.isMyTurn())
+		{
+			return "playerA";
+		}
+		else
+		{
+			return "playerB";
+		}
+	}
+	
+	/**
+	 * get the number of stones
+	 * @param pit input the index of the array
+	 * @return the number of stones with index
+	 */
 	public int getNumOfStones(int pit)
 	{
 		return stones[pit];
 	}
 
+	/**
+	 * add change listener into the ArrayList
+	 * @param observer input the observer for adding the change listener 
+	 */
 	public void attach(ChangeListener observer)
 	{
 		observers.add(observer);
 	}
 
+	/**
+	 * send out the change event to update all Views
+	 */
 	public void update()
 	{
 		for(ChangeListener observer : observers)
@@ -108,6 +151,18 @@ public class Board
 					checkWinner = false;
 				}
 			}
+			if(checkWinner)
+			{
+				for(int j = PitPanel.FIRST_UPPER_PIT; j <= PitPanel.LAST_UPPER_PIT; j++)
+				{
+					if(stones[j] != 0)
+					{
+						stones[MANCALA_B_HOLE] += stones[j];
+						stones[j] = 0;
+						update();
+					}
+				}
+			}
 		}
 		else if(players == playerB)
 		{
@@ -118,11 +173,18 @@ public class Board
 					checkWinner = false;
 				}
 			}
-			
-		}
-		else
-		{
-			//throws error
+			if(checkWinner)
+			{
+				for(int j = PitPanel.FIRST_LOWER_PIT; j <= PitPanel.LAST_LOWER_PIT; j++)
+				{
+					if(stones[j] != 0)
+					{
+						stones[MANCALA_A_HOLE] += stones[j];
+						stones[j] = 0;
+						update();
+					}
+				}
+			}
 		}
 		
 		if(checkWinner)
@@ -146,6 +208,14 @@ public class Board
 		// int pit = whichPit;
 		// System.out.println("whosePit: " + whosePit);
 		
+		//set who is the first player
+		if(FirstTime)
+		{
+			SetPlayer(pit);
+			FirstTime = false;
+		}
+		
+		
 		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT && playerA.isMyTurn())
 		{
 			oneMove(pit);	
@@ -162,6 +232,7 @@ public class Board
 
 			takeSnapShot();
 
+			
 			//check end game or not
 			System.out.println(Endgame(playerB));
 		}
@@ -171,38 +242,7 @@ public class Board
 		//System.out.println("playerA" + playerA.isMyTurn());
 		//System.out.println("playerB" + playerB.isMyTurn()); 
 	}
-
-
-	/**
-	 * take snap shot after each step
-	 */
-	public void takeSnapShot(){
-		int[] temp = Arrays.copyOf(stones, stones.length);
-		if(step < snapShots.size())
-			snapShots.set(step++, temp);
-		else
-			snapShots.add(step++, temp);
-	}
 	
-	public void undo(){
-		if(step < 2)
-			return;
-		step -= 2;
-		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
-		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
-		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
-		update();
-	}
-	
-	public void redo(){
-		if(step == snapShots.size())
-			return;
-		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
-		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
-		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
-		update();
-	}
-
 	// //pick up all stones in one pit, and move counter-clock wise
 	public void oneMove(int pit)
 	{
@@ -301,5 +341,35 @@ public class Board
 		
 		}
 		return;
+	}
+	
+	/**
+	 * take snap shot after each step
+	 */
+	public void takeSnapShot(){
+		int[] temp = Arrays.copyOf(stones, stones.length);
+		if(step < snapShots.size())
+			snapShots.set(step++, temp);
+		else
+			snapShots.add(step++, temp);
+	}
+	
+	public void undo(){
+		if(step < 2)
+			return;
+		step -= 2;
+		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
+		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
+		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
+		update();
+	}
+	
+	public void redo(){
+		if(step == snapShots.size())
+			return;
+		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
+		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
+		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
+		update();
 	}
 }

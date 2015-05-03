@@ -9,10 +9,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
-
+/**
+ * this is one of the Component for Board Frame 
+ * @author Team Architects
+ */
 public class Mancala extends JComponent implements ChangeListener
 {
 	public final static int STARTING_STONES_NUMBER = 0;
@@ -82,10 +86,12 @@ public class Mancala extends JComponent implements ChangeListener
 		if(whichMancala == Board.MANCALA_A)
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_A_HOLE); 
+			g2.drawString("Mancala" + 'A', 33, 10);
 		}
 		else
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_B_HOLE);
+			g2.drawString("Mancala" + 'B', 33, 10);
 		}
 
 		
@@ -108,6 +114,8 @@ public class Mancala extends JComponent implements ChangeListener
 				Xcircle = DEFAULT_STONE_X;
 				Ycircle += Mancala.DEFAULT_STONE_SIZE;
 			}
+			
+			
 		}
 	}
 

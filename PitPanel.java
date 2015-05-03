@@ -11,7 +11,10 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-
+/**
+ * this is one of the Panel for the Board Frame
+ * @author Team Architects
+ */
 // Controller: Front Side
 public class PitPanel extends JPanel 
 {
@@ -37,8 +40,8 @@ public class PitPanel extends JPanel
 		));
 
 		initializePits();
-
-		addMouseListener(new MouseAdapter() 
+		
+		addMouseListener(new MouseAdapter()  //controller
 		{	
 			public void mouseClicked(MouseEvent e)
 			{

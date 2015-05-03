@@ -6,6 +6,10 @@
  *	@version 1.01 2015/4/27
  */
 
+/**
+ * this is a class for player rules 
+ * @author Team Architects
+ */
 public class Player 
 {
 	private boolean myTurn;

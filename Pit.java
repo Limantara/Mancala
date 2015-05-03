@@ -13,6 +13,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.util.*;
 
+/**
+ * this is one of the Component for PitPanel
+ * @author Team Architects
+ */
 //Controller: Back side -> see PitPanel (Controller: Front side)
 public class Pit extends JComponent implements ChangeListener
 {
@@ -84,8 +88,16 @@ public class Pit extends JComponent implements ChangeListener
 				Ycircle += Pit.DEFAULT_STONE_SIZE;
 			}
 		}
-
-		g2.drawString(String.valueOf(id), 10, 30);
+		
+		//label sets up
+		if(id<6)
+		{
+			g2.drawString("A" + String.valueOf(id+1), 10, 30);
+		}
+		else
+		{
+			g2.drawString("B" + String.valueOf(id-5), 10, 30);
+		}
 	}
 
 	public boolean contains(int x, int y)

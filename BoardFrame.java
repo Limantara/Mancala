@@ -15,7 +15,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.*;
 
-
+/**
+ * this is the Board Frame for the project
+ * @author Team Architects
+ */
 public class BoardFrame extends JFrame
 {
 	private Board board;
@@ -50,7 +53,7 @@ public class BoardFrame extends JFrame
 		mancalaB = new Mancala(board, Board.MANCALA_B);
 		
 		//set ChangeListener for MancalaA
-		ChangeListener listenerA = new
+		ChangeListener listenerA = new //controller
 				ChangeListener()
 				{
 						public void stateChanged(ChangeEvent e)
@@ -63,7 +66,7 @@ public class BoardFrame extends JFrame
 				};
 		
 		//set ChangeListener for MancalaB
-		ChangeListener listenerB = new
+		ChangeListener listenerB = new //controller
 				ChangeListener()
 				{
 						public void stateChanged(ChangeEvent e)
@@ -81,13 +84,15 @@ public class BoardFrame extends JFrame
 		//add the Undo panel
 		redoPanel = new JPanel();
 		JButton redoBtn = new JButton("REDO");
-		redoBtn.addActionListener(new ActionListener(){
+		//controller
+		redoBtn.addActionListener(new ActionListener(){ 
 			public void actionPerformed(ActionEvent e) {
 				board.redo();
 			}
 		});
 		
 		JButton undoBtn = new JButton("UNDO");
+		//controller
 		undoBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				board.undo();
@@ -95,6 +100,23 @@ public class BoardFrame extends JFrame
 		});
 		redoPanel.add(redoBtn);
 		redoPanel.add(undoBtn);
+		
+		//display the turn for player
+		JTextArea playerTurn = new JTextArea();
+		playerTurn.setBounds(120, 10, 120, 20);
+		add(playerTurn);
+
+		ChangeListener listenerC = new //controller
+				ChangeListener()
+				{
+						public void stateChanged(ChangeEvent e)
+						{
+							playerTurn.setText("Player's turn: " + board.getplayerturn());
+							repaint();
+						}
+				};
+		//add ChangeListener to the board class
+		board.attach(listenerC);
 		
 		add(redoPanel, BorderLayout.NORTH);
 
