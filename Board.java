@@ -57,7 +57,7 @@ public class Board
 				//System.out.println("pit: " + pit);
 			}
 			else
-			{
+			{	
 				stones[pit] = Pit.DEFAULT_STONES_NUM;
 			}
 		}

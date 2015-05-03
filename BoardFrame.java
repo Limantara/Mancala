@@ -129,7 +129,7 @@ public class BoardFrame extends JFrame
 	}
 	
 	public void setBoardLayout(BoardLayout layout)
-	{
+	{		
 		mancalaA.setMancalaLayout(layout);
 		mancalaB.setMancalaLayout(layout);
 		pitController.setPanelLayout(layout);

@@ -20,7 +20,12 @@ import java.util.*;
 //Controller: Back side -> see PitPanel (Controller: Front side)
 public class Pit extends JComponent implements ChangeListener
 {
-	public static final int DEFAULT_STONES_NUM = 3;
+	public static int DEFAULT_STONES_NUM = 3;
+
+	public static void setDefaultStone(int n)
+	{
+		DEFAULT_STONES_NUM = n;
+	}
 
 	private int id;
 	private Board board;

@@ -12,8 +12,6 @@ public class MancalaSystem
 {	
 	public static void main(String[] args)
 	{
-		Board board = new Board();
-		BoardFrame b = new BoardFrame(board);
-		MainFrame m = new MainFrame(b);
+		MainFrame m = new MainFrame();
 	}
 }
