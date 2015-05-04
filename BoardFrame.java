@@ -119,6 +119,45 @@ public class BoardFrame extends JFrame
 		//add ChangeListener to the board class
 		board.attach(listenerC);
 		
+		//display the turn for playerA remain undo times
+		JTextArea playerAremainUndo = new JTextArea();
+		playerAremainUndo.setBounds(750, 10, 90, 20);
+		add(playerAremainUndo);
+
+		ChangeListener listenerD = new //controller
+				ChangeListener()
+				{
+						public void stateChanged(ChangeEvent e)
+						{
+							playerAremainUndo.setText("PleyerA: " + board.getAundoTime()); 
+							repaint();
+						}
+				};
+		//add ChangeListener to the board class
+		board.attach(listenerD);
+				
+		//display the turn for playerB remain undo times
+		JTextArea playerBremainUndo = new JTextArea();
+		playerBremainUndo.setBounds(850, 10, 90, 20);
+		add(playerBremainUndo);
+
+		ChangeListener listenerE = new //controller
+				ChangeListener()
+				{
+						public void stateChanged(ChangeEvent e)
+						{
+							playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
+							repaint();
+						}
+				};
+		//add ChangeListener to the board class
+		board.attach(listenerE);
+		
+		//display the remain undo times label
+		JLabel undoTimeTest = new JLabel("Remain Undo Times:");
+		undoTimeTest.setBounds(620, 10, 150, 20);
+		add(undoTimeTest);
+		
 		add(redoPanel, BorderLayout.NORTH);
 		add(pitController, BorderLayout.CENTER);
 

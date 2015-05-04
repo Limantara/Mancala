@@ -247,6 +247,23 @@ public class Board
 	}
 	
 	/**
+	 * get the remain undo time for playerA
+	 * @return the remain undo time for playerA
+	 */
+	public int getAundoTime()
+	{
+		return aUndoTime;
+	}
+	
+	/**
+	 * the remain undo time for playerB
+	 * @return the remain undo time for playerB
+	 */
+	public int getBundoTime()
+	{
+		return bUndoTime;
+	}
+	/**
 	 * Undo method, used for undo
 	 */
 	public void undo(){
