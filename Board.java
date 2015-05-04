@@ -7,8 +7,10 @@
  */
 
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.event.*;
+
 import java.util.List;
 import java.util.*;
 
@@ -28,8 +30,14 @@ public class Board
 	private Player playerB;
 	private int[] stones; // 0-5 is A's pits, 6-11 is B's pits, 12 is A's mancala, 13 is B's mancala
 
-	private int step; //step for the game, if A moved one step, B moved one step. The step is 2. 
-	private List<int[]> snapShots;  
+	private int[] lastStep; //used to record the last step
+	private int[] nextStep; //uesd to record the next step after redo
+	private int aUndoTime; //number of times A and B can undo
+	private int bUndoTime;
+	private String whoMoveLastStep;
+	private String turnCache; //store whose turn is it before click on undo.
+	
+	
 	private List<ChangeListener> observers;
 	private boolean checkWinner;
 	private boolean FirstTime;
@@ -44,9 +52,7 @@ public class Board
 		stones = new int[TOTAL_HOLES];
 		checkWinner = false;
 		FirstTime = true;
-		//used to take snapShots of board in each step
-		step = 0;
-		snapShots = new LinkedList<int[]>();
+		
 		
 
 		for(int pit = 0; pit < stones.length; pit++)
@@ -62,10 +68,9 @@ public class Board
 			}
 		}
 
-
-		//take the original snapshot
-		int[] temp = Arrays.copyOf(stones, stones.length);
-		snapShots.add(step++, temp);
+		//A and B can only undo at most 3 times
+		aUndoTime = 3;
+		bUndoTime = 3;
 		
 		playerA = new Player();
 		playerB = new Player();
@@ -201,6 +206,7 @@ public class Board
 		}
 		return output;
 	}
+
 	
 	public void select(int pit)
 	{	
@@ -218,9 +224,10 @@ public class Board
 		
 		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT && playerA.isMyTurn())
 		{
+			lastStep = Arrays.copyOf(stones, stones.length);
+			nextStep = null;
+			whoMoveLastStep = "A";
 			oneMove(pit);	
-
-			takeSnapShot();
 
 			//check end game or not
 			System.out.println(Endgame(playerA));
@@ -228,20 +235,69 @@ public class Board
 
 		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT && playerB.isMyTurn())
 		{
+			lastStep = Arrays.copyOf(stones, stones.length);
+			nextStep = null;
+			whoMoveLastStep = "B";
 			oneMove(pit);
-
-			takeSnapShot();
-
-			
 			//check end game or not
 			System.out.println(Endgame(playerB));
 		}
 		
 		update();
-		
-		//System.out.println("playerA" + playerA.isMyTurn());
-		//System.out.println("playerB" + playerB.isMyTurn()); 
 	}
+	
+	/**
+	 * Undo method, used for undo
+	 */
+	public void undo(){
+		if(lastStep == null)
+			return;	
+		//remember the current turn before undo
+		if(playerA.isMyTurn())
+			turnCache = "A";
+		if(playerB.isMyTurn())
+			turnCache = "B";
+		
+		if(whoMoveLastStep.equals("B")) {
+			if(aUndoTime == 0)
+				return;
+			playerB.setMyTurn(true); 
+			playerA.setMyTurn(false); 
+			aUndoTime--; 
+		}
+		else if(whoMoveLastStep.equals("A")) {
+			if(bUndoTime == 0)
+				return;
+			playerA.setMyTurn(true); 
+			playerB.setMyTurn(false); 
+			bUndoTime--;
+		}
+		nextStep = Arrays.copyOf(stones, stones.length);
+		stones = Arrays.copyOf(lastStep, lastStep.length);
+		lastStep = null;
+		update();
+		System.out.println(playerA.isMyTurn() + " " + playerB.isMyTurn());
+	}
+	/**
+	 * redo method, used for redo
+	 */
+	public void redo(){
+		if(nextStep == null)
+			return;
+		if(turnCache.equals("B")) {
+			playerB.setMyTurn(true); 
+			playerA.setMyTurn(false);
+		}
+		else if(turnCache.equals("A")) {
+			playerA.setMyTurn(true); 
+			playerB.setMyTurn(false);
+		}
+		
+		stones = Arrays.copyOf(nextStep, nextStep.length);
+		nextStep = null;
+		update();
+	}
+
 	
 	// //pick up all stones in one pit, and move counter-clock wise
 	public void oneMove(int pit)
@@ -349,35 +405,5 @@ public class Board
 		
 		}
 		return;
-	}
-	
-	/**
-	 * take snap shot after each step
-	 */
-	public void takeSnapShot(){
-		int[] temp = Arrays.copyOf(stones, stones.length);
-		if(step < snapShots.size())
-			snapShots.set(step++, temp);
-		else
-			snapShots.add(step++, temp);
-	}
-	
-	public void undo(){
-		if(step < 2)
-			return;
-		step -= 2;
-		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
-		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
-		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
-		update();
-	}
-	
-	public void redo(){
-		if(step == snapShots.size())
-			return;
-		stones = Arrays.copyOf(snapShots.get(step), snapShots.get(step++).length);
-		if(playerA.isMyTurn()) {playerB.setMyTurn(true); playerA.setMyTurn(false);}
-		else if(playerB.isMyTurn()) {playerA.setMyTurn(true); playerB.setMyTurn(false);}
-		update();
 	}
 }
