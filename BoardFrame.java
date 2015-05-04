@@ -112,7 +112,7 @@ public class BoardFrame extends JFrame
 				{
 						public void stateChanged(ChangeEvent e)
 						{
-							playerTurn.setText("Next Move: " + board.getplayerturn());
+							playerTurn.setText("Next Move: " + board.getplayerturn()); 
 							repaint();
 						}
 				};
