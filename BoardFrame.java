@@ -120,11 +120,20 @@ public class BoardFrame extends JFrame
 		board.attach(listenerC);
 		
 		add(redoPanel, BorderLayout.NORTH);
-
 		add(pitController, BorderLayout.CENTER);
-		add(mancalaA, BorderLayout.EAST);
-		add(mancalaB, BorderLayout.WEST); 
-		
+
+		JPanel mancalaAPanel = new JPanel(new BorderLayout());
+		mancalaAPanel.add(new JLabel("Mancala A", SwingConstants.CENTER), BorderLayout.SOUTH);
+		mancalaAPanel.add(mancalaA, BorderLayout.CENTER);
+
+		JPanel mancalaBPanel = new JPanel(new BorderLayout());
+		mancalaBPanel.add(new JLabel("Mancala B", SwingConstants.CENTER), BorderLayout.SOUTH);
+		mancalaBPanel.add(mancalaB, BorderLayout.CENTER);
+
+		add(mancalaAPanel, BorderLayout.EAST);
+		add(mancalaBPanel, BorderLayout.WEST); 
+
+		add(getCopyrightInformation(), BorderLayout.SOUTH);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(false);
@@ -136,6 +145,19 @@ public class BoardFrame extends JFrame
 		mancalaB.setMancalaLayout(layout);
 		pitController.setPanelLayout(layout);
 		repaint();
+	}
+
+	private JLabel getCopyrightInformation()
+	{
+		JLabel copyrightInformation = new JLabel(
+			"<html>" + 
+				"<body>" + 
+					"<br><br><h4><center>© 2015 Team Architects. All Rights Reserved.</center></h4>" +
+				"</body>" +
+			"</html>"
+		, SwingConstants.CENTER);
+
+		return copyrightInformation;
 	}
 
 	/**

@@ -80,8 +80,6 @@ public class Mancala extends JComponent implements ChangeListener
 		int x_centered = getWidth()/2 - Mancala.DEFAULT_WIDTH/2;
 		int y_centered = getHeight()/2 - Mancala.DEFAULT_HEIGHT/2;
 
-		g2.draw(layout.mancalaLayout(x_centered, y_centered, Mancala.DEFAULT_WIDTH, Mancala.DEFAULT_HEIGHT));
-
 		int Xcircle = Mancala.DEFAULT_STONE_X;
 		int Ycircle = Mancala.DEFAULT_STONE_Y;
 		int numStones;
@@ -89,14 +87,13 @@ public class Mancala extends JComponent implements ChangeListener
 		if(whichMancala == Board.MANCALA_A)
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_A_HOLE); 
-			g2.drawString("Mancala" + 'A', 33, 60);
 		}
 		else
 		{
 			numStones = board.getNumOfStones(Board.MANCALA_B_HOLE);
-			g2.drawString("Mancala" + 'B', 33, 60);
 		}
 
+		g2.draw(layout.mancalaLayout(x_centered, y_centered, Mancala.DEFAULT_WIDTH, Mancala.DEFAULT_HEIGHT));
 		
 		for(int i = 0; i < numStones; i++)
 		{
