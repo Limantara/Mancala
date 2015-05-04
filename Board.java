@@ -275,21 +275,21 @@ public class Board
 			//If it is A's turn, and he click on pit[5]
 			if(pit == PitPanel.LAST_LOWER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_A)
 			{
-				System.out.println("1 pit: " + pit + " <- execpted 5");
+				//System.out.println("1 pit: " + pit + " <- execpted 5");
 				stones[Board.MANCALA_A_HOLE]++;
 				MancalaAdded = true;
 				//set playerA for next turn when last pit in mancala 
 				if(pit == PitPanel.LAST_LOWER_PIT && remainingStones == 1 && whosePit == Board.PLAYER_A)
 				{
 					//System.out.println("pit A: " + pit + " <- execpted 5");
-					System.out.println("2 pit: " + pit + " <- execpted 5");
+					//System.out.println("2 pit: " + pit + " <- execpted 5");
 					playerA.setMyTurn(true);
 					playerB.setMyTurn(false);
 				}
 				
 				remainingStones--;
 				pit = PitPanel.FIRST_UPPER_PIT;
-				System.out.println("3 pit: " + pit + " <- execpted 6");
+				//System.out.println("3 pit: " + pit + " <- execpted 6");
 			}
 			//If it is B's turn, and he click on pit[11]
 			else if(pit == PitPanel.LAST_UPPER_PIT && remainingStones > 0 && whosePit == Board.PLAYER_B)
@@ -313,7 +313,7 @@ public class Board
 			else if(MancalaAdded) //if Mancala added, the pit is already added so do nothing
 			{
 				//do nothing
-				System.out.println("4 pit: " + pit + " <- execpted 0 or 6");
+				//System.out.println("4 pit: " + pit + " <- execpted 0 or 6");
 				stones[pit]++;
 				remainingStones--;
 				MancalaAdded = false; //set MancalaAdded back to default
