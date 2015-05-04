@@ -252,7 +252,7 @@ public class Board
 	 */
 	public int getAundoTime()
 	{
-		return aUndoTime;
+		return bUndoTime;
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class Board
 	 */
 	public int getBundoTime()
 	{
-		return bUndoTime;
+		return aUndoTime;
 	}
 	/**
 	 * Undo method, used for undo
