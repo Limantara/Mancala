@@ -34,6 +34,8 @@ public class Board
 	private int[] nextStep; //uesd to record the next step after redo
 	private int aUndoTime; //number of times A and B can undo
 	private int bUndoTime;
+	private boolean aCanUndo; //check if A can undo
+	private boolean bCanUndo; //check if B can undo
 	private String whoMoveLastStep;
 	private String turnCache; //store whose turn is it before click on undo.
 	
@@ -71,6 +73,8 @@ public class Board
 		//A and B can only undo at most 3 times
 		aUndoTime = 3;
 		bUndoTime = 3;
+		aCanUndo = true;
+		bCanUndo = true;
 		
 		playerA = new Player();
 		playerB = new Player();
@@ -221,24 +225,28 @@ public class Board
 			FirstTime = false;
 		}
 		
-		
+		//click on A
 		if(pit >= PitPanel.FIRST_LOWER_PIT && pit <= PitPanel.LAST_LOWER_PIT && playerA.isMyTurn())
 		{
 			lastStep = Arrays.copyOf(stones, stones.length);
 			nextStep = null;
 			whoMoveLastStep = "A";
 			oneMove(pit);	
+			bCanUndo = true;
 
 			//check end game or not
 			System.out.println(Endgame(playerA));
 		}
-
+		
+		//click on B
 		if(pit >= PitPanel.FIRST_UPPER_PIT && pit <= PitPanel.LAST_UPPER_PIT && playerB.isMyTurn())
 		{
 			lastStep = Arrays.copyOf(stones, stones.length);
 			nextStep = null;
 			whoMoveLastStep = "B";
 			oneMove(pit);
+			aCanUndo = true;
+			
 			//check end game or not
 			System.out.println(Endgame(playerB));
 		}
@@ -246,6 +254,23 @@ public class Board
 		update();
 	}
 	
+	/**
+	 * get the remain undo time for playerA
+	 * @return the remain undo time for playerA
+	 */
+	public int getAundoTime()
+	{
+		return aUndoTime;
+	}
+	
+	/**
+	 * the remain undo time for playerB
+	 * @return the remain undo time for playerB
+	 */
+	public int getBundoTime()
+	{
+		return bUndoTime;
+	}
 	/**
 	 * Undo method, used for undo
 	 */
@@ -259,18 +284,20 @@ public class Board
 			turnCache = "B";
 		
 		if(whoMoveLastStep.equals("B")) {
-			if(aUndoTime == 0)
+			if(bUndoTime == 0 || !bCanUndo)
 				return;
 			playerB.setMyTurn(true); 
 			playerA.setMyTurn(false); 
-			aUndoTime--; 
+			bUndoTime--; 
+			bCanUndo = false;
 		}
 		else if(whoMoveLastStep.equals("A")) {
-			if(bUndoTime == 0)
+			if(aUndoTime == 0 || !aCanUndo)
 				return;
 			playerA.setMyTurn(true); 
 			playerB.setMyTurn(false); 
-			bUndoTime--;
+			aUndoTime--;
+			aCanUndo = false;
 		}
 		nextStep = Arrays.copyOf(stones, stones.length);
 		stones = Arrays.copyOf(lastStep, lastStep.length);
