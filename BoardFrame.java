@@ -16,14 +16,16 @@ import javax.swing.event.*;
  * this is the Board Frame for the project
  * @author Team Architects
  */
-public class BoardFrame extends JFrame
+public class BoardFrame extends JFrame implements ChangeListener
 {
 	private Board board;
 	private Mancala mancalaA;
 	private Mancala mancalaB;
 	private PitPanel pitController;
-	private MainFrame mainFrame;
 	private JPanel redoPanel;
+	private JTextArea playerTurn;
+	private JTextArea playerAremainUndo;
+	private JTextArea playerBremainUndo;
 
 	public final static int DEFAULT_WIDTH = 1000;
 	public final static int DEFAULT_HEIGHT = 300;
@@ -31,7 +33,6 @@ public class BoardFrame extends JFrame
 	public BoardFrame(Board board)
 	{
 		this.board = board;
-		this.mainFrame = mainFrame;
 		setLayout(new BorderLayout());
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,34 +50,34 @@ public class BoardFrame extends JFrame
 		mancalaA = new Mancala(board, Board.MANCALA_A);
 		mancalaB = new Mancala(board, Board.MANCALA_B);
 		
-		//set ChangeListener for MancalaA
-		ChangeListener listenerA = new //controller
-				ChangeListener()
-				{
-						public void stateChanged(ChangeEvent e)
-						{
-							//System.out.println(mancalaA.getmancala());
-							mancalaA.setmancala(board.getNumOfStones(board.MANCALA_A_HOLE) );
-							
-							repaint();
-						}
-				};
+		// //set ChangeListener for MancalaA
+		// ChangeListener listenerA = new //controller
+		// 	ChangeListener()
+		// 	{
+		// 		public void stateChanged(ChangeEvent e)
+		// 		{
+		// 			//System.out.println(mancalaA.getmancala());
+		// 			mancalaA.setmancala(board.getNumOfStones(board.MANCALA_A_HOLE) );
+					
+		// 			repaint();
+		// 		}
+		// 	};
 		
-		//set ChangeListener for MancalaB
-		ChangeListener listenerB = new //controller
-				ChangeListener()
-				{
-						public void stateChanged(ChangeEvent e)
-						{
-							//System.out.println(mancalaA.getmancala());
-							mancalaB.setmancala(board.getNumOfStones(board.MANCALA_B_HOLE) );
-							
-							repaint();
-						}
-				};
-		//add ChangeListener to the board class
-		board.attach(listenerA);
-		board.attach(listenerB);
+		// //set ChangeListener for MancalaB
+		// ChangeListener listenerB = new //controller
+		// 	ChangeListener()
+		// 	{
+		// 		public void stateChanged(ChangeEvent e)
+		// 		{
+		// 			//System.out.println(mancalaA.getmancala());
+		// 			mancalaB.setmancala(board.getNumOfStones(board.MANCALA_B_HOLE) );
+					
+		// 			repaint();
+		// 		}
+		// 	};
+		// //add ChangeListener to the board class
+		// board.attach(listenerA);
+		// board.attach(listenerB);
 
 		//add the Undo panel
 		redoPanel = new JPanel();
@@ -103,55 +104,55 @@ public class BoardFrame extends JFrame
 		redoPanel.add(quitButton);
 		
 		//display the turn for player
-		JTextArea playerTurn = new JTextArea();
+		playerTurn = new JTextArea();
 		playerTurn.setBounds(120, 10, 150, 20);
 		add(playerTurn);
 
-		ChangeListener listenerC = new //controller
-				ChangeListener()
-				{
-						public void stateChanged(ChangeEvent e)
-						{
-							playerTurn.setText("Next Move: " + board.getplayerturn()); 
-							repaint();
-						}
-				};
-		//add ChangeListener to the board class
-		board.attach(listenerC);
+		// ChangeListener listenerC = new //controller
+		// 	ChangeListener()
+		// 	{
+		// 		public void stateChanged(ChangeEvent e)
+		// 		{
+		// 			playerTurn.setText("Next Move: " + board.getplayerturn()); 
+		// 			repaint();
+		// 		}
+		// 	};
+		// //add ChangeListener to the board class
+		// board.attach(listenerC);
 		
 		//display the turn for playerA remain undo times
-		JTextArea playerAremainUndo = new JTextArea();
+		playerAremainUndo = new JTextArea();
 		playerAremainUndo.setBounds(750, 10, 90, 20);
 		add(playerAremainUndo);
 
-		ChangeListener listenerD = new //controller
-				ChangeListener()
-				{
-						public void stateChanged(ChangeEvent e)
-						{
-							playerAremainUndo.setText("PleyerA: " + board.getAundoTime()); 
-							repaint();
-						}
-				};
-		//add ChangeListener to the board class
-		board.attach(listenerD);
+		// ChangeListener listenerD = new //controller
+		// 	ChangeListener()
+		// 	{
+		// 		public void stateChanged(ChangeEvent e)
+		// 		{
+		// 			playerAremainUndo.setText("PlayerA: " + board.getAundoTime()); 
+		// 			repaint();
+		// 		}
+		// 	};
+		// //add ChangeListener to the board class
+		// board.attach(listenerD);
 				
 		//display the turn for playerB remain undo times
-		JTextArea playerBremainUndo = new JTextArea();
+		playerBremainUndo = new JTextArea();
 		playerBremainUndo.setBounds(850, 10, 90, 20);
 		add(playerBremainUndo);
 
-		ChangeListener listenerE = new //controller
-				ChangeListener()
-				{
-						public void stateChanged(ChangeEvent e)
-						{
-							playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
-							repaint();
-						}
-				};
-		//add ChangeListener to the board class
-		board.attach(listenerE);
+		// ChangeListener listenerE = new //controller
+		// 	ChangeListener()
+		// 	{
+		// 		public void stateChanged(ChangeEvent e)
+		// 		{
+		// 			playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
+		// 			repaint();
+		// 		}
+		// 	};
+		// //add ChangeListener to the board class
+		// board.attach(listenerE);
 		
 		//display the remain undo times label
 		JLabel undoTimeTest = new JLabel("Remain Undo Times:");
@@ -176,6 +177,18 @@ public class BoardFrame extends JFrame
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(false);
+	}
+
+	public void stateChanged(ChangeEvent e)
+	{
+		//System.out.println(mancalaA.getmancala());
+		mancalaA.setmancala(board.getNumOfStones(board.MANCALA_A_HOLE) );
+		mancalaB.setmancala(board.getNumOfStones(board.MANCALA_B_HOLE) );
+		playerTurn.setText("Next Move: " + board.getplayerturn()); 
+		playerAremainUndo.setText("PlayerA: " + board.getAundoTime()); 
+		playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
+		
+		repaint();
 	}
 	
 	public void setBoardLayout(BoardLayout layout)

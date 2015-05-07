@@ -25,6 +25,7 @@ public class MainFrame extends JFrame
 	public MainFrame()
 	{
 		setLayout(new BorderLayout());
+		board = new Board();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x_centered = (int) screenSize.getWidth()/2 - MainFrame.DEFAULT_WIDTH/2;
@@ -160,10 +161,18 @@ public class MainFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				option1.setBorder(SELECTED);
-				option2.setBorder(DEFAULT);
-				b = new BoardFrame(new Board());
-				b.setBoardLayout(new CircularLayout());
+				if(b != null)
+				{
+					option1.setBorder(SELECTED);
+					option2.setBorder(DEFAULT);
+					b = new BoardFrame(board);
+					b.setBoardLayout(new CircularLayout());
+					board.attach(b);
+				}
+				else
+				{
+					b.setBoardLayout(new CircularLayout());
+				}
 			}
 		});
 
@@ -171,10 +180,18 @@ public class MainFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				option1.setBorder(DEFAULT);
-				option2.setBorder(SELECTED);
-				b = new BoardFrame(new Board());
-				b.setBoardLayout(new RectangularLayout());
+				if(b != null)
+				{
+					option1.setBorder(SELECTED);
+					option2.setBorder(DEFAULT);
+					b = new BoardFrame(board);
+					b.setBoardLayout(new RectangularLayout());
+					board.attach(b);
+				}
+				else
+				{
+					b.setBoardLayout(new RectangularLayout());
+				}
 			}
 		});
 
@@ -201,8 +218,9 @@ public class MainFrame extends JFrame
 
 				if(b == null)
 				{
-					b = new BoardFrame(new Board());
+					b = new BoardFrame(board);
 					b.setBoardLayout(new RectangularLayout());
+					board.attach(b);
 				}
 				
 				b.repaint();
@@ -225,6 +243,7 @@ public class MainFrame extends JFrame
 	}
 
 	private BoardFrame b;
+	private Board board;
 	private static final int NO_MARGIN = 0;
 	private static final int TOP_MARGIN = 10;
 	private static final int BOT_MARGIN = 10;
