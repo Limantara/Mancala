@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Driver class of Mancala multiplayer board game.
  */
-public class MancalaSystem
+public class MancalaTest
 {	
 	public static void main(String[] args)
 	{
