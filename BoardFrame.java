@@ -13,23 +13,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * this is the Board Frame for the project
- * @author Team Architects
+ * The main view of Mancala Multiplayer application
  */
 public class BoardFrame extends JFrame implements ChangeListener
 {
-	private Board board;
-	private Mancala mancalaA;
-	private Mancala mancalaB;
-	private PitPanel pitController;
-	private JPanel redoPanel;
-	private JTextArea playerTurn;
-	private JTextArea playerAremainUndo;
-	private JTextArea playerBremainUndo;
-
-	public final static int DEFAULT_WIDTH = 1000;
-	public final static int DEFAULT_HEIGHT = 300;
-
+	/**
+	 * Construct a new main view.
+	 * @param  board the model of the application.
+	 */
 	public BoardFrame(Board board)
 	{
 		this.board = board;
@@ -179,6 +170,10 @@ public class BoardFrame extends JFrame implements ChangeListener
 		setVisible(false);
 	}
 
+	/**
+	 * Get the latest changes in model and display the most recent state of the game.
+	 * @param e event containing the model object.
+	 */
 	public void stateChanged(ChangeEvent e)
 	{
 		//System.out.println(mancalaA.getmancala());
@@ -191,6 +186,10 @@ public class BoardFrame extends JFrame implements ChangeListener
 		repaint();
 	}
 	
+	/**
+	 * Set board layout.
+	 * @param layout the specification of the layout.
+	 */
 	public void setBoardLayout(BoardLayout layout)
 	{		
 		mancalaA.setMancalaLayout(layout);
@@ -199,6 +198,10 @@ public class BoardFrame extends JFrame implements ChangeListener
 		repaint();
 	}
 
+	/**
+	 * Helper method to display copyright information at the bottom of the screen.
+	 * @return label consisting of copyright information.
+	 */
 	private JLabel getCopyrightInformation()
 	{
 		JLabel copyrightInformation = new JLabel(
@@ -229,4 +232,16 @@ public class BoardFrame extends JFrame implements ChangeListener
 
 		return quitButton;
 	}
+
+	public final static int DEFAULT_WIDTH = 1000;
+	public final static int DEFAULT_HEIGHT = 300;
+
+	private Board board;
+	private Mancala mancalaA;
+	private Mancala mancalaB;
+	private PitPanel pitController;
+	private JPanel redoPanel;
+	private JTextArea playerTurn;
+	private JTextArea playerAremainUndo;
+	private JTextArea playerBremainUndo;
 }
