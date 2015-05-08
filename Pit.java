@@ -65,6 +65,16 @@ public class Pit extends JComponent implements ChangeListener
 			Pit.DEFAULT_HEIGHT
 		));
 
+		if(!board.isFirstTime() && id >= PitPanel.FIRST_LOWER_PIT && id <= PitPanel.LAST_LOWER_PIT && !board.getplayerturn().equals("playerA"))
+		{
+			g2.setColor(Color.LIGHT_GRAY);
+		}
+
+		if(!board.isFirstTime() && id >= PitPanel.FIRST_UPPER_PIT && id <= PitPanel.LAST_UPPER_PIT && !board.getplayerturn().equals("playerB"))
+		{
+			g2.setColor(Color.LIGHT_GRAY);
+		}
+
 		g2.draw(layout.pitsLayout(x_centered, y_centered, Pit.DEFAULT_WIDTH, Pit.DEFAULT_HEIGHT));
 
 		// Create the parts of this car and draw them here.

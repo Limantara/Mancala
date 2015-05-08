@@ -427,6 +427,15 @@ public class Board
 		return;
 	}
 
+	/**
+	 * Check if the players have not make any move yet.
+	 * @return true if the players have not make any move or false otherwise.
+	 */
+	public boolean isFirstTime()
+	{
+		return FirstTime;
+	}
+
 	public final static int PLAYER_A = 1;
 	public final static int PLAYER_B = 2;
 	public final static int MANCALA_A = 1;

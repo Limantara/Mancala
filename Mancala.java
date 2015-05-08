@@ -95,6 +95,16 @@ public class Mancala extends JComponent implements ChangeListener
 			numStones = board.getNumOfStones(Board.MANCALA_B_HOLE);
 		}
 
+		if(!board.isFirstTime() && whichMancala == Board.MANCALA_A && !board.getplayerturn().equals("playerA"))
+		{
+			g2.setColor(Color.LIGHT_GRAY);
+		}
+
+		if(!board.isFirstTime() && whichMancala == Board.MANCALA_B && !board.getplayerturn().equals("playerB"))
+		{
+			g2.setColor(Color.LIGHT_GRAY);
+		}
+		
 		g2.draw(layout.mancalaLayout(x_centered, y_centered, Mancala.DEFAULT_WIDTH, Mancala.DEFAULT_HEIGHT));
 		
 		for(int i = 0; i < numStones; i++)
