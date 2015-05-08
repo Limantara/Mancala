@@ -14,29 +14,15 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * this is one of the Component for Board Frame 
- * @author Team Architects
+ * Mancala component, part of BoardFrame.
  */
 public class Mancala extends JComponent implements ChangeListener
 {
-	public final static int STARTING_STONES_NUMBER = 0;
-
-	private Board board;
-	private BoardLayout layout;
-	private int stone;
-	private int whichMancala;
-	private final static int DEFAULT_WIDTH = 60;
-	private final static int DEFAULT_HEIGHT = 100;
-	private final static int DEFAULT_OUTER_WIDTH = 120;
-	private final static int DEFAULT_OUTER_HEIGHT = 100;
-	private final static int LEFT_PADDING = 10;
-	private final static int RIGHT_PADDING = 10;
-	private final static int TOP_PADDING = 15;
-
-	private final static int DEFAULT_STONE_X = 0;
-	private final static int DEFAULT_STONE_Y = 0;
-	private final static int DEFAULT_STONE_SIZE = 10;
-
+	/**
+	 * Construct a new Mancala component
+	 * @param  board the model object of Mancala application.
+	 * @param  whichMancala the id of the mancala.
+	 */
 	public Mancala(Board board, int whichMancala) 
 	{
 		this.board = board;
@@ -57,16 +43,28 @@ public class Mancala extends JComponent implements ChangeListener
 		setPreferredSize(new Dimension(Mancala.DEFAULT_OUTER_WIDTH, Mancala.DEFAULT_OUTER_HEIGHT));
 	}
 
+	/**
+	 * Set the number of stones in the mancala.
+	 * @param stones the number of stones.
+	 */
 	public void setmancala(int stones)
 	{
 		this.stone = stones;
 	}
 	
+	/**
+	 * Return the number of stones in this mancala.
+	 * @return a string containing the number of stones.
+	 */
 	public String getmancala()
 	{
 		return " " + stone;
 	}
 	
+	/**
+	 * Change the layout of this mancala.
+	 * @param layout layout specification.
+	 */
 	public void setMancalaLayout(BoardLayout layout)
 	{
 		
@@ -74,6 +72,10 @@ public class Mancala extends JComponent implements ChangeListener
 		repaint();
 	}
 	
+	/**
+	 * Draw this mancala.
+	 * @param g graphics object.
+	 */
 	public void paintComponent(Graphics g)
 	{	
 		Graphics2D g2 = (Graphics2D) g;
@@ -117,9 +119,30 @@ public class Mancala extends JComponent implements ChangeListener
 		}
 	}
 
+	/**
+	 * Update this mancala with the most recent changes in model.
+	 * @param e an event containing model object.
+	 */
 	public void stateChanged(ChangeEvent e)
 	{
 		board = (Board) e.getSource();
 		repaint();
 	}
+
+	public final static int STARTING_STONES_NUMBER = 0;
+
+	private Board board;
+	private BoardLayout layout;
+	private int stone;
+	private int whichMancala;
+	private final static int DEFAULT_WIDTH = 60;
+	private final static int DEFAULT_HEIGHT = 100;
+	private final static int DEFAULT_OUTER_WIDTH = 120;
+	private final static int DEFAULT_OUTER_HEIGHT = 100;
+	private final static int LEFT_PADDING = 10;
+	private final static int RIGHT_PADDING = 10;
+	private final static int TOP_PADDING = 15;
+	private final static int DEFAULT_STONE_X = 0;
+	private final static int DEFAULT_STONE_Y = 0;
+	private final static int DEFAULT_STONE_SIZE = 10;
 }
