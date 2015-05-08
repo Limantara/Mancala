@@ -179,7 +179,16 @@ public class BoardFrame extends JFrame implements ChangeListener
 		//System.out.println(mancalaA.getmancala());
 		mancalaA.setmancala(board.getNumOfStones(board.MANCALA_A_HOLE) );
 		mancalaB.setmancala(board.getNumOfStones(board.MANCALA_B_HOLE) );
-		playerTurn.setText("Next Move: " + board.getplayerturn()); 
+
+		if(board.getplayerturn().equals("playerA"))
+		{
+			playerTurn.setText(" Next Move: Player A"); 
+		}
+		else
+		{
+			playerTurn.setText(" Next Move: Player B"); 
+		}
+
 		playerAremainUndo.setText("PlayerA: " + board.getAundoTime()); 
 		playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
 		
