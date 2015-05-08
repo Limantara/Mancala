@@ -52,8 +52,6 @@ public class Board
 		stones = new int[TOTAL_HOLES];
 		checkWinner = false;
 		FirstTime = true;
-		
-		
 
 		for(int pit = 0; pit < stones.length; pit++)
 		{
@@ -417,9 +415,6 @@ public class Board
 				stones[pit] += stones[11-pit];
 				stones[11-pit] = 0;
 			}
-			
-		
-		
 		}
 		return;
 	}
