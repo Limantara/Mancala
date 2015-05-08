@@ -7,44 +7,18 @@
  */
 
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
-
 import java.util.List;
 import java.util.*;
 
 /**
- * Model class that stores 
+ * Model class that store the state of the game.
  */
 public class Board
 {
-	public final static int PLAYER_A = 1;
-	public final static int PLAYER_B = 2;
-	public final static int MANCALA_A = 1;
-	public final static int MANCALA_B = 2;
-	public final static int MANCALA_A_HOLE = 13;
-	public final static int MANCALA_B_HOLE = 12;
-
-	private Player playerA;
-	private Player playerB;
-	private int[] stones; // 0-5 is A's pits, 6-11 is B's pits, 12 is A's mancala, 13 is B's mancala
-
-	private int[] lastStep; //used to record the last step
-	private int[] nextStep; //uesd to record the next step after redo
-	private int aUndoTime; //number of times A and B can undo
-	private int bUndoTime;
-	private String whoMoveLastStep;
-	private String turnCache; //store whose turn is it before click on undo.
-	
-	
-	private List<ChangeListener> observers;
-	private boolean checkWinner;
-	private boolean FirstTime;
-	private final static int TOTAL_HOLES = 14; // pits + mancalas
-	
 	/**
-	 * Board class construct 
+	 * Construct a new board model. 
 	 */
 	public Board()
 	{
@@ -75,8 +49,8 @@ public class Board
 	}
 
 	/**
-	 * set who is the first player to play
-	 * @param player input the player
+	 * Set the next move according to the most recent selected pit.
+	 * @param pit the most recent selected pit.
 	 */
 	public void SetPlayer(int pit)
 	{
@@ -93,6 +67,10 @@ public class Board
 		}
 	}
 	
+	/**
+	 * Return the name of the player whose turn is now.
+	 * @return string "playerA" if it is player A's turn or "playerB" otherwise.
+	 */
 	public String getplayerturn()
 	{
 		if(playerA.isMyTurn())
@@ -106,9 +84,9 @@ public class Board
 	}
 	
 	/**
-	 * get the number of stones
-	 * @param pit input the index of the array
-	 * @return the number of stones with index
+	 * Get the number of stones.
+	 * @param pit the index of the pit.
+	 * @return the number of stones.
 	 */
 	public int getNumOfStones(int pit)
 	{
@@ -116,8 +94,8 @@ public class Board
 	}
 
 	/**
-	 * add change listener into the ArrayList
-	 * @param observer input the observer for adding the change listener 
+	 * Add an observer.
+	 * @param observer the observer of this model.
 	 */
 	public void attach(ChangeListener observer)
 	{
@@ -125,7 +103,7 @@ public class Board
 	}
 
 	/**
-	 * send out the change event to update all Views
+	 * Update observers with the latest changes in model.
 	 */
 	public void update()
 	{
@@ -136,16 +114,15 @@ public class Board
 	}
 
 	/**
-	 * Check does the player finish the game or not
-	 * then print out who is the winner
-	 * @param players the current player to check
-	 * @return a string for who is the winner
+	 * Check if a player has won the game and return a message.
+	 * @param player the player in query.
+	 * @return message containing information about the winner of the game.
 	 */
-	public String Endgame(Player players)
+	public String Endgame(Player player)
 	{
 		checkWinner = true;
 		String output = "";
-		if(players == playerA)
+		if(player == playerA)
 		{
 			for(int i = PitPanel.FIRST_LOWER_PIT; i <= PitPanel.LAST_LOWER_PIT; i++)
 			{
@@ -167,7 +144,7 @@ public class Board
 				}
 			}
 		}
-		else if(players == playerB)
+		else if(player == playerB)
 		{
 			for(int i = PitPanel.FIRST_UPPER_PIT; i <= PitPanel.LAST_UPPER_PIT; i++)
 			{
@@ -205,7 +182,10 @@ public class Board
 		return output;
 	}
 
-	
+	/**
+	 * Select a pit.
+	 * @param pit the selected pit.
+	 */
 	public void select(int pit)
 	{	
 		//look for the pit which is clicked
@@ -245,8 +225,8 @@ public class Board
 	}
 	
 	/**
-	 * get the remain undo time for playerA
-	 * @return the remain undo time for playerA
+	 * Return the remaining undo left for playerA.
+	 * @return the number of remaining undo.
 	 */
 	public int getAundoTime()
 	{
@@ -254,56 +234,82 @@ public class Board
 	}
 	
 	/**
-	 * the remain undo time for playerB
-	 * @return the remain undo time for playerB
+	 * Return the remaining undo left for playerB.
+	 * @return the number of remaining undo.
 	 */
 	public int getBundoTime()
 	{
 		return aUndoTime;
 	}
+
 	/**
-	 * Undo method, used for undo
+	 * Undo the latest change and go back to the previous state of the game.
 	 */
-	public void undo(){
+	public void undo()
+	{
 		if(lastStep == null)
+		{
 			return;	
+		}
+			
 		//remember the current turn before undo
 		if(playerA.isMyTurn())
+		{
 			turnCache = "A";
-		if(playerB.isMyTurn())
-			turnCache = "B";
+		}
 		
-		if(whoMoveLastStep.equals("B")) {
+		if(playerB.isMyTurn())
+		{
+			turnCache = "B";
+		}
+		
+		if(whoMoveLastStep.equals("B")) 
+		{
 			if(aUndoTime == 0)
-				return;
+			{
+				return;	
+			}
+				
 			playerB.setMyTurn(true); 
 			playerA.setMyTurn(false); 
 			aUndoTime--; 
 		}
-		else if(whoMoveLastStep.equals("A")) {
+		else if(whoMoveLastStep.equals("A")) 
+		{
 			if(bUndoTime == 0)
+			{
 				return;
+			}
+				
 			playerA.setMyTurn(true); 
 			playerB.setMyTurn(false); 
 			bUndoTime--;
 		}
+
 		nextStep = Arrays.copyOf(stones, stones.length);
 		stones = Arrays.copyOf(lastStep, lastStep.length);
 		lastStep = null;
 		update();
 		System.out.println(playerA.isMyTurn() + " " + playerB.isMyTurn());
 	}
+
 	/**
-	 * redo method, used for redo
+	 * Cancel the latest undo and proceed with the latest state of the game.
 	 */
-	public void redo(){
+	public void redo()
+	{
 		if(nextStep == null)
+		{
 			return;
-		if(turnCache.equals("B")) {
+		}
+			
+		if(turnCache.equals("B")) 
+		{
 			playerB.setMyTurn(true); 
 			playerA.setMyTurn(false);
 		}
-		else if(turnCache.equals("A")) {
+		else if(turnCache.equals("A")) 
+		{
 			playerA.setMyTurn(true); 
 			playerB.setMyTurn(false);
 		}
@@ -313,8 +319,10 @@ public class Board
 		update();
 	}
 
-	
-	// //pick up all stones in one pit, and move counter-clock wise
+	/**
+	 * Move the stones in the selected pit in counter clock-wise direction.
+	 * @param pit the selected pit.
+	 */
 	public void oneMove(int pit)
 	{
 		int whosePit = -1;
@@ -418,4 +426,24 @@ public class Board
 		}
 		return;
 	}
+
+	public final static int PLAYER_A = 1;
+	public final static int PLAYER_B = 2;
+	public final static int MANCALA_A = 1;
+	public final static int MANCALA_B = 2;
+	public final static int MANCALA_A_HOLE = 13;
+	public final static int MANCALA_B_HOLE = 12;
+	private Player playerA;
+	private Player playerB;
+	private int[] stones; // 0-5 is A's pits, 6-11 is B's pits, 12 is A's mancala, 13 is B's mancala
+	private int[] lastStep; //used to record the last step
+	private int[] nextStep; //uesd to record the next step after redo
+	private int aUndoTime; //number of times A and B can undo
+	private int bUndoTime;
+	private String whoMoveLastStep;
+	private String turnCache; //store whose turn is it before click on undo.
+	private List<ChangeListener> observers;
+	private boolean checkWinner;
+	private boolean FirstTime;
+	private final static int TOTAL_HOLES = 14; // pits + mancalas
 }
