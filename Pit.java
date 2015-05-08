@@ -14,7 +14,7 @@ import javax.swing.event.*;
 import java.util.*;
 
 /**
- * The backend of the controller in Mancala application.
+ * The back-end of Mancala application's controller.
  */
 public class Pit extends JComponent implements ChangeListener
 {

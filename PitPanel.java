@@ -12,25 +12,14 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 /**
- * this is one of the Panel for the Board Frame
- * @author Team Architects
+ * The front-end of Mancala application's controller.
  */
-// Controller: Front Side
 public class PitPanel extends JPanel 
 {
-	public final static int DEFAULT_ROWS_NUMBER = 2;
-	public final static int DEFAULT_COLS_NUMBER = 6;
-	public final static int DEFAULT_PITS_NUMBER = 12;
-
-	public final static int FIRST_LOWER_PIT = 0;
-	public final static int LAST_LOWER_PIT = 5;
-	public final static int FIRST_UPPER_PIT = 6;
-	public final static int LAST_UPPER_PIT = 11;
-
-	private Board board;
-	private Pit[] myPits;
-	private BoardLayout layout;
-
+	/**
+	 * Construct a new panel consisting of pit components.
+	 * @param  board the model object of Mancala application.
+	 */
 	public PitPanel(Board board) 
 	{	
 		this.board = board;
@@ -63,6 +52,10 @@ public class PitPanel extends JPanel
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 	
+	/**
+	 * Set the layout of this panel.
+	 * @param layout layout specification.
+	 */
 	public void setPanelLayout(BoardLayout layout)
 	{
 		this.layout = layout;
@@ -72,6 +65,9 @@ public class PitPanel extends JPanel
 		}
 	}
 
+	/**
+	 * Add pits onto this panel.
+	 */
 	private void initializePits()
 	{
 		myPits = new Pit[PitPanel.DEFAULT_PITS_NUMBER];
@@ -92,4 +88,16 @@ public class PitPanel extends JPanel
 			add(myPits[id]);
 		}
 	}
+
+	public final static int DEFAULT_ROWS_NUMBER = 2;
+	public final static int DEFAULT_COLS_NUMBER = 6;
+	public final static int DEFAULT_PITS_NUMBER = 12;
+	public final static int FIRST_LOWER_PIT = 0;
+	public final static int LAST_LOWER_PIT = 5;
+	public final static int FIRST_UPPER_PIT = 6;
+	public final static int LAST_UPPER_PIT = 11;
+
+	private Board board;
+	private Pit[] myPits;
+	private BoardLayout layout;
 }
