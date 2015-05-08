@@ -14,10 +14,8 @@ import javax.swing.event.*;
 import java.util.*;
 
 /**
- * this is one of the Component for PitPanel
- * @author Team Architects
+ * The backend of the controller in Mancala application.
  */
-//Controller: Back side -> see PitPanel (Controller: Front side)
 public class Pit extends JComponent implements ChangeListener
 {
 	/**
