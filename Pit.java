@@ -20,45 +20,41 @@ import java.util.*;
 //Controller: Back side -> see PitPanel (Controller: Front side)
 public class Pit extends JComponent implements ChangeListener
 {
-	public static int DEFAULT_STONES_NUM = 3;
-
-	public static void setDefaultStone(int n)
-	{
-		DEFAULT_STONES_NUM = n;
-	}
-
-	private int id;
-	private Board board;
-	private BoardLayout layout;
-
-	private static final int DEFAULT_WIDTH = 60;
-	private static final int DEFAULT_HEIGHT = 60;
-	
-	private final static int DEFAULT_STONE_X = 0;
-	private final static int DEFAULT_STONE_Y = 0;
-	private final static int LEFT_PADDING = 10;
-	private final static int RIGHT_PADDING = 10;
-	private final static int TOP_PADDING = 10;
-	private final static int DEFAULT_STONE_SIZE = 10;
-
+	/**
+	 * Construct a new pit component.
+	 * @param  id    an id associated with this pit.
+	 * @param  board the model object of this Mancala application.
+	 */
 	public Pit(int id, Board board)
 	{	
 		this.board = board;
 		this.id = id;
 	}
 
+	/**
+	 * Update this pit with the most recent changes in model.
+	 * @param e an event containing the model object.
+	 */
 	public void stateChanged(ChangeEvent e)
 	{
 		board = (Board) e.getSource();
 		repaint();
 	}
 	
+	/**
+	 * Set the layout of this pit.
+	 * @param layout layout specification.
+	 */
 	public void setPitLayout(BoardLayout layout)
 	{
 		this.layout = layout;
 		repaint();
 	}
 
+	/**
+	 * Draw this pit.
+	 * @param g a graphics object.
+	 */
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
@@ -108,6 +104,12 @@ public class Pit extends JComponent implements ChangeListener
 		}
 	}
 
+	/**
+	 * Check if a point is contained in this pit.
+	 * @param  x the x coordinate of the point.
+	 * @param  y the y coordinate of the point.
+	 * @return true if the point is contained in this pit or false otherwise.
+	 */
 	public boolean contains(int x, int y)
 	{
 		int row = getRow();
@@ -126,11 +128,19 @@ public class Pit extends JComponent implements ChangeListener
 			   y <= y0 + Pit.DEFAULT_HEIGHT;
 	}
 
+	/**
+	 * Helper method to return the row index of this pit.
+	 * @return the row index.
+	 */
 	private int getRow()
 	{
 		return id / PitPanel.DEFAULT_COLS_NUMBER;
 	}
 
+	/**
+	 * Helper method to return the column index of this pit.
+	 * @return the column index.
+	 */
 	private int getCol()
 	{
 		if(id >= PitPanel.FIRST_UPPER_PIT && id <= PitPanel.LAST_UPPER_PIT)
@@ -147,4 +157,27 @@ public class Pit extends JComponent implements ChangeListener
 			return -1;
 		}
 	}
+
+	/**
+	 * Set the default number of stones of this pit.
+	 * @param n the number of stones.
+	 */
+	public static void setDefaultStone(int n)
+	{
+		DEFAULT_STONES_NUM = n;
+	}
+
+	public static int DEFAULT_STONES_NUM = 3;
+
+	private int id;
+	private Board board;
+	private BoardLayout layout;
+	private static final int DEFAULT_WIDTH = 60;
+	private static final int DEFAULT_HEIGHT = 60;
+	private final static int DEFAULT_STONE_X = 0;
+	private final static int DEFAULT_STONE_Y = 0;
+	private final static int LEFT_PADDING = 10;
+	private final static int RIGHT_PADDING = 10;
+	private final static int TOP_PADDING = 10;
+	private final static int DEFAULT_STONE_SIZE = 10;
 }
