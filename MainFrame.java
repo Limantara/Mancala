@@ -20,7 +20,7 @@ import javax.swing.border.*;
 public class MainFrame extends JFrame
 {
 	/**
-	 * Constructs a new main frame that contains menu.
+	 * Construct a new main frame that contains menu.
 	 */
 	public MainFrame()
 	{
@@ -45,7 +45,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Main frame helper function to add Menu panel.
+	 * Main frame helper method to add Menu panel.
 	 */
 	private void addMenu()
 	{
@@ -63,7 +63,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Menu panel helper function to get the upper portion of the panel.
+	 * Menu panel helper method to get the upper portion of the panel.
 	 * @return a panel that contains the game title.
 	 */
 	private JPanel getUpperPanel()
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Menu panel helper function to get the lower portion of the panel.
+	 * Menu panel helper method to get the lower portion of the panel.
 	 * @return a panel that contains menu and start button.
 	 */
 	private JPanel getLowerPanel()
@@ -101,7 +101,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Menu panel helper function to get panel that contains stone number option.
+	 * Menu panel helper method to get panel that contains stone number option.
 	 * @return a panel containing stone number option.
 	 */
 	private JPanel getStonesOptions()
@@ -142,7 +142,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Menu panel helper function to get panel that contains layout option.
+	 * Menu panel helper method to get panel that contains layout option.
 	 * @return a panel containing layout option.
 	 */
 	private JPanel getLayoutOptions()
@@ -161,18 +161,21 @@ public class MainFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if(b != null)
+				option1.setBorder(SELECTED);
+				option2.setBorder(DEFAULT);
+
+				if(b == null)
 				{
-					option1.setBorder(SELECTED);
-					option2.setBorder(DEFAULT);
 					b = new BoardFrame(board);
 					b.setBoardLayout(new CircularLayout());
-					board.attach(b);
+					
 				}
 				else
 				{
 					b.setBoardLayout(new CircularLayout());
 				}
+
+				board.attach(b);
 			}
 		});
 
@@ -180,18 +183,20 @@ public class MainFrame extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if(b != null)
+				option1.setBorder(DEFAULT);
+				option2.setBorder(SELECTED);
+
+				if(b == null)
 				{
-					option1.setBorder(SELECTED);
-					option2.setBorder(DEFAULT);
 					b = new BoardFrame(board);
 					b.setBoardLayout(new RectangularLayout());
-					board.attach(b);
 				}
 				else
 				{
 					b.setBoardLayout(new RectangularLayout());
 				}
+
+				board.attach(b);
 			}
 		});
 
@@ -201,7 +206,7 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Menu panel helper function to get panel that contains start button and copyright information.
+	 * Menu panel helper method to get panel that contains start button and copyright information.
 	 * @return a panel containing start button and copyright information.
 	 */
 	private JPanel getStartButton()
