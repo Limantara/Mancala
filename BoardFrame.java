@@ -72,7 +72,7 @@ public class BoardFrame extends JFrame implements ChangeListener
 
 		//add the Undo panel
 		redoPanel = new JPanel();
-		JButton redoBtn = new JButton("REDO");
+		JButton redoBtn = new JButton("Redo");
 		//controller
 		redoBtn.addActionListener(new ActionListener(){ 
 			public void actionPerformed(ActionEvent e) {
@@ -80,7 +80,7 @@ public class BoardFrame extends JFrame implements ChangeListener
 			}
 		});
 		
-		JButton undoBtn = new JButton("UNDO");
+		JButton undoBtn = new JButton("Undo");
 		//controller
 		undoBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -146,8 +146,8 @@ public class BoardFrame extends JFrame implements ChangeListener
 		// board.attach(listenerE);
 		
 		//display the remain undo times label
-		JLabel undoTimeTest = new JLabel("Remain Undo Times:");
-		undoTimeTest.setBounds(620, 10, 150, 20);
+		JLabel undoTimeTest = new JLabel("Undo Count:");
+		undoTimeTest.setBounds(666, 9, 150, 20);
 		add(undoTimeTest);
 		
 		add(redoPanel, BorderLayout.NORTH);
@@ -189,8 +189,8 @@ public class BoardFrame extends JFrame implements ChangeListener
 			playerTurn.setText(" Next Move: Player B"); 
 		}
 
-		playerAremainUndo.setText("PlayerA: " + board.getAundoTime()); 
-		playerBremainUndo.setText("PlayerB: " + board.getBundoTime()); 
+		playerAremainUndo.setText(" Player A: " + board.getAundoTime()); 
+		playerBremainUndo.setText(" Player B: " + board.getBundoTime()); 
 		
 		repaint();
 	}
