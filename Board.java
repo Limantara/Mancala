@@ -43,6 +43,8 @@ public class Board
 		//A and B can only undo at most 3 times
 		aUndoTime = 3;
 		bUndoTime = 3;
+		aCanUndo = true;
+		bCanUndo = true;
 		
 		playerA = new Player();
 		playerB = new Player();
@@ -206,6 +208,7 @@ public class Board
 			nextStep = null;
 			whoMoveLastStep = "A";
 			oneMove(pit);	
+			bCanUndo = true;
 
 			//check end game or not
 			System.out.println(Endgame(playerA));
@@ -217,6 +220,8 @@ public class Board
 			nextStep = null;
 			whoMoveLastStep = "B";
 			oneMove(pit);
+			aCanUndo = true;
+			
 			//check end game or not
 			System.out.println(Endgame(playerB));
 		}
@@ -230,7 +235,7 @@ public class Board
 	 */
 	public int getAundoTime()
 	{
-		return bUndoTime;
+		return aUndoTime;
 	}
 	
 	/**
@@ -239,7 +244,7 @@ public class Board
 	 */
 	public int getBundoTime()
 	{
-		return aUndoTime;
+		return bUndoTime;
 	}
 
 	/**
@@ -265,25 +270,23 @@ public class Board
 		
 		if(whoMoveLastStep.equals("B")) 
 		{
-			if(aUndoTime == 0)
-			{
+			if(bUndoTime == 0 || !bCanUndo)
 				return;	
-			}
-				
+					
 			playerB.setMyTurn(true); 
 			playerA.setMyTurn(false); 
-			aUndoTime--; 
+			bUndoTime--; 
+			bCanUndo = false;
 		}
 		else if(whoMoveLastStep.equals("A")) 
 		{
-			if(bUndoTime == 0)
-			{
+			if(aUndoTime == 0 || !aCanUndo)
 				return;
-			}
 				
 			playerA.setMyTurn(true); 
 			playerB.setMyTurn(false); 
-			bUndoTime--;
+			aUndoTime--;
+			aCanUndo = false;
 		}
 
 		nextStep = Arrays.copyOf(stones, stones.length);
@@ -449,6 +452,8 @@ public class Board
 	private int[] nextStep; //uesd to record the next step after redo
 	private int aUndoTime; //number of times A and B can undo
 	private int bUndoTime;
+	private boolean aCanUndo; //check if A can undo
+	private boolean bCanUndo; //check if B can undo
 	private String whoMoveLastStep;
 	private String turnCache; //store whose turn is it before click on undo.
 	private List<ChangeListener> observers;
